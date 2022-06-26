@@ -1,0 +1,734 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="JangShuan Pang">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="最短路算法及其Python实现 最短路径问题是图论中非常经典的问题之一，旨在寻找图中两顶点之间的最短路径。作为一个基本工具，实际应用中许多优化问题，如管道铺设、线路安排、工区布局、设备更新等。都可被归结为最短路径问题来解决。 定义1：设图\(G\)是赋权图，\(\Gamma\)为\(G\)中的一条路，则称\(\Gamma\)的各边权之和为路\(\Gamma\)的长度。 对于\(G\)的两">
+<meta property="og:type" content="article">
+<meta property="og:title" content="最短路径及其应用">
+<meta property="og:url" content="http://example.com/posts/24890.html">
+<meta property="og:site_name" content="网站名称">
+<meta property="og:description" content="最短路算法及其Python实现 最短路径问题是图论中非常经典的问题之一，旨在寻找图中两顶点之间的最短路径。作为一个基本工具，实际应用中许多优化问题，如管道铺设、线路安排、工区布局、设备更新等。都可被归结为最短路径问题来解决。 定义1：设图\(G\)是赋权图，\(\Gamma\)为\(G\)中的一条路，则称\(\Gamma\)的各边权之和为路\(\Gamma\)的长度。 对于\(G\)的两">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2022/06/26/l4HTiCy5cR62zW8.png">
+<meta property="og:image" content="https://drive.imgod.me/api/v3/file/get/61808/figure3.png?sign=4h_GOqbwtj4VVuzNQR-NVKtZ2LoCeR7rOVKRgHyJZds%3D%3A0">
+<meta property="og:image" content="https://drive.imgod.me/api/v3/file/get/61809/dsafasdfasdf.png?sign=_QGe0dW7S17pNT5pPBQKAehOaIoBxn-pkOQ5epMQYAg%3D%3A0">
+<meta property="article:published_time" content="2022-06-26T15:21:44.771Z">
+<meta property="article:modified_time" content="2022-06-26T15:22:51.038Z">
+<meta property="article:author" content="JangShuan Pang">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://s2.loli.net/2022/06/26/l4HTiCy5cR62zW8.png">
+  
+  
+  
+  <title>最短路径及其应用 - 网站名称</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>P</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="最短路径及其应用"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-06-26 23:21" pubdate>
+          2022年6月26日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          33 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">最短路径及其应用</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <hr>
+<h2 id="最短路算法及其python实现">最短路算法及其Python实现</h2>
+<p>最短路径问题是图论中非常经典的问题之一，旨在寻找图中两顶点之间的最短路径。作为一个基本工具，实际应用中许多优化问题，如管道铺设、线路安排、工区布局、设备更新等。都可被归结为最短路径问题来解决。</p>
+<p>定义1：设图<span class="math inline">\(G\)</span>是赋权图，<span class="math inline">\(\Gamma\)</span>为<span class="math inline">\(G\)</span>中的一条路，则称<span class="math inline">\(\Gamma\)</span>的各边权之和为路<span class="math inline">\(\Gamma\)</span>的长度。</p>
+<p>对于<span class="math inline">\(G\)</span>的两个顶点<span class="math inline">\(u_0\)</span>和<span class="math inline">\(v_0\)</span>，从<span class="math inline">\(u_0\)</span>到<span class="math inline">\(v_0\)</span>的路不止一条，其中最短的一条称为从<span class="math inline">\(u_0\)</span>到<span class="math inline">\(v_0\)</span>的最短路；最短路的长称为从<span class="math inline">\(u_0\)</span>到<span class="math inline">\(v_0\)</span>的距离，记为<span class="math inline">\(d(u_0,v_0)\)</span>。</p>
+<p>求最短路的算法有Dijkstra标号算法和Floyd算法，但Dijkstra标号算法只适应于边权为非负的情形，最短路径的问题也可以归结到<span class="math inline">\(0-1\)</span>规划问题。</p>
+<h3 id="设备更新问题">设备更新问题</h3>
+<p>某种工程设备的役龄为4年，每年年初都面临着是否更新的问题；若卖旧买新，就需要支付一定的购置费用；若继续使用，则要支付更多的维护费用，且使用年限越长维护费用就越多。若役龄期间每年的年初购置价格，当年维护费用及其年末剩余净值如下表所示。请为该设备制定一个4年役龄期内的更新计划，使总的支付费用最少。</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">年份</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">年初购置价格/万元</td>
+<td>25</td>
+<td>26</td>
+<td>28</td>
+<td>31</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">当年维护费用/万元</td>
+<td>10</td>
+<td>14</td>
+<td>18</td>
+<td>26</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">年末剩余净值/万元</td>
+<td>20</td>
+<td>16</td>
+<td>13</td>
+<td>11</td>
+</tr>
+</tbody>
+</table>
+<p>解： 可以把该问题进行数学抽象</p>
+<p>构造赋权有向图<span class="math inline">\(D=(V,A,W)\)</span>，其中顶点集<span class="math inline">\(V=\{v_1,v_2,v_3,v_4,v_5\},where\quad
+v_i(i=1,2,3,4)\text{表示第i年初},v_5\text{表示第5年初(第4年末)}.\)</span>,<span class="math inline">\(A\)</span>表示弧集，邻接矩阵<span class="math inline">\(W=(w_{ij})_{5\times5}\)</span>，这里<span class="math inline">\(w_{ij}\)</span>表示第<span class="math inline">\(i\)</span>年初购进机器第<span class="math inline">\(j\)</span>年初卖掉这个过程一共支付的费用，计算公式为
+<span class="math display">\[
+w_{ij}=p_i+\sum_{k=1}^{j-i}a_k-r_{j-i}
+\]</span> 其中<span class="math inline">\(p_i\)</span>为第<span class="math inline">\(i\)</span>年年初的购置价格,<span class="math inline">\(a_k\)</span>表示从购入开始计算使用到第k年的费用，<span class="math inline">\(r_i\)</span>表示使用<span class="math inline">\(i\)</span>年旧设备的出售价格。则邻接矩阵为： <span class="math display">\[
+W = \begin{bmatrix}
+            0&amp;15&amp;33&amp;54&amp;82\\
+            \infty&amp;0&amp;16&amp;34&amp;55\\
+            \infty&amp;\infty&amp;0&amp;18&amp;36\\
+            \infty&amp;\infty&amp;\infty&amp;0&amp;21\\
+            \infty&amp;\infty&amp;\infty&amp;\infty&amp;0
+            \end{bmatrix}\nonumber
+\]</span> 经计算得：</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs clean">最短路径为：<br><span class="hljs-number">1</span>-&gt;<span class="hljs-number">2</span>-&gt;<span class="hljs-number">3</span>-&gt;<span class="hljs-number">5</span><br>最短距离为<span class="hljs-number">67</span><br></code></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2022/06/26/l4HTiCy5cR62zW8.png" srcset="/img/loading.gif" lazyload style="zoom: 50%;"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs python">W = np.array([[<span class="hljs-number">0</span>,<span class="hljs-number">15</span>,<span class="hljs-number">33</span>,<span class="hljs-number">54</span>,<span class="hljs-number">82</span>]<br>              ,[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">16</span>,<span class="hljs-number">34</span>,<span class="hljs-number">55</span>]<br>              ,[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span> ,<span class="hljs-number">18</span>,<span class="hljs-number">36</span>]<br>              ,[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span> ,<span class="hljs-number">0</span> , <span class="hljs-number">21</span> ]<br>              ,[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span> ,<span class="hljs-number">0</span> , <span class="hljs-number">0</span> ]])<br><span class="hljs-string">&#x27;&#x27;&#x27;注意：在利用networkx库函数计算时，如果两个顶点之间没有边，对应的邻接矩阵元素为0，而不是np.inf&#x27;&#x27;&#x27;</span><br>G=nx.DiGraph(W)<span class="hljs-comment">#创建有向图</span><br>p = nx.dijkstra_path(G,source=<span class="hljs-number">0</span>,target=<span class="hljs-number">4</span>,weight=<span class="hljs-string">&quot;weight&quot;</span>)<span class="hljs-comment">#求最短路径</span><br><span class="hljs-string">&quot;&quot;&quot;param G:图</span><br><span class="hljs-string">   param source:起点</span><br><span class="hljs-string">   param target:终点</span><br><span class="hljs-string">   param weight:用边权作为路长&quot;&quot;&quot;</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;最短路径为：&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;-&gt;&quot;</span>.join([<span class="hljs-built_in">str</span>(i+<span class="hljs-number">1</span>) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> p]))<br>d = nx.dijkstra_path_length(G,source=<span class="hljs-number">0</span>,target=<span class="hljs-number">4</span>,weight=<span class="hljs-string">&quot;weight&quot;</span>)<span class="hljs-comment">#求最短距离</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;最短距离为&#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(d))<br>plt.figure(dpi=<span class="hljs-number">500</span>)<br>node_labels=<span class="hljs-built_in">dict</span>(<span class="hljs-built_in">zip</span>(<span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>),[<span class="hljs-string">&quot;V&quot;</span>+<span class="hljs-built_in">str</span>(i) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>,<span class="hljs-number">6</span>)])) <span class="hljs-comment">#构造用于顶点标记的字典</span><br>pos = nx.shell_layout(G)<span class="hljs-comment">#设置布局</span><br>w = nx.get_edge_attributes(G,<span class="hljs-string">&quot;weight&quot;</span>) <span class="hljs-comment">#获取边的权重</span><br>nx.draw_networkx(G,pos,node_size=<span class="hljs-number">270</span>,labels=node_labels) <span class="hljs-comment">#绘制图</span><br>nx.draw_networkx_edge_labels(G,pos,font_size=<span class="hljs-number">10</span>,edge_labels=w)<span class="hljs-comment">#标记权重</span><br>path_edges=<span class="hljs-built_in">list</span>(<span class="hljs-built_in">zip</span>(p,p[<span class="hljs-number">1</span>:]))<span class="hljs-comment">#标记路径的元组组成的列表</span><br>nx.draw_networkx_edges(G,pos,edgelist=path_edges,edge_color=<span class="hljs-string">&quot;r&quot;</span>,width=<span class="hljs-number">3</span>)<span class="hljs-comment">#标记路径</span><br>plt.savefig(<span class="hljs-string">&quot;figure2.png&quot;</span>)<br>plt.show()<br></code></pre></td></tr></table></figure>
+<h3 id="重心问题">重心问题</h3>
+<p>有些公共服务设施（例如邮局，学校等）的选址，要求设施到所有服务对象点的距离总和最小。一般要考虑人口密度问题，或者全体被服务对象来往的总路程最短。</p>
+<p>某矿区有六个矿点，如下图所示，已知各产矿点每天的产煤量为<span class="math inline">\(q_i(i=1,2,3,4,5,6)t,\)</span>,现在要从这六个矿点选一个作为矿场。问在那个产矿点，才能使各矿点所产的矿石运到选矿厂所在地的总运力<span class="math inline">\((t\cdot km)\)</span>最小。</p>
+<p><img src="https://drive.imgod.me/api/v3/file/get/61808/figure3.png?sign=4h_GOqbwtj4VVuzNQR-NVKtZ2LoCeR7rOVKRgHyJZds%3D%3A0" srcset="/img/loading.gif" lazyload style="zoom:50%;"></p>
+<p>解：令<span class="math inline">\(d_{ij}(i,j=1,2,\cdots,6)\)</span>表示顶点<span class="math inline">\(v_i\)</span>和顶点<span class="math inline">\(v_j\)</span>之间的距离。若选矿厂设在<span class="math inline">\(m_i\)</span>，并且各产矿点到选矿厂的总运力为<span class="math inline">\(m_i\)</span>,则确定选矿厂的位置就转化为求<span class="math inline">\(m_k\)</span>，使得 <span class="math display">\[
+m_k = \min_{1\le i \le6} m_i
+\]</span>
+由于各产矿点到选矿厂的总运力依赖于任意两顶点之间的距离，即任意两顶点之间的最短距离，先用Floyd计算出所有顶点对之间的最短距离，然后计算出顶点<span class="math inline">\(v_i\)</span>作为设立选矿厂时各自到<span class="math inline">\(v_i\)</span>的总运力 <span class="math display">\[
+m_i = \sum_{j=1}^{6}q_jd_{ij},\quad i = 1,2,\cdots,6
+\]</span></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs python">W = np.array([[<span class="hljs-number">0</span>,<span class="hljs-number">20</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">15</span>,<span class="hljs-number">0</span>]<br>            ,[<span class="hljs-number">20</span>,<span class="hljs-number">0</span>,<span class="hljs-number">20</span>,<span class="hljs-number">40</span>,<span class="hljs-number">25</span>,<span class="hljs-number">0</span>]<br>            ,[<span class="hljs-number">0</span>,<span class="hljs-number">20</span>,<span class="hljs-number">0</span>,<span class="hljs-number">30</span>,<span class="hljs-number">10</span>,<span class="hljs-number">0</span>]<br>            ,[<span class="hljs-number">0</span>,<span class="hljs-number">40</span>,<span class="hljs-number">30</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>]<br>            ,[<span class="hljs-number">15</span>,<span class="hljs-number">25</span>,<span class="hljs-number">10</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">15</span>]<br>            ,[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">15</span>,<span class="hljs-number">0</span>]])<br><span class="hljs-comment">#绘制无向加权图</span><br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> networkx <span class="hljs-keyword">as</span> nx<br><span class="hljs-keyword">import</span> seaborn <span class="hljs-keyword">as</span> sns<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br>sns.set_theme(style=<span class="hljs-string">&quot;dark&quot;</span>)<span class="hljs-comment">#用来设置主题背景</span><br>plt.rcParams[<span class="hljs-string">&quot;font.sans-serif&quot;</span>] = [<span class="hljs-string">&quot;SimHei&quot;</span>] <span class="hljs-comment">#用来正常显示中文标签</span><br>plt.rcParams[<span class="hljs-string">&quot;axes.unicode_minus&quot;</span>] = <span class="hljs-literal">False</span> <span class="hljs-comment">#用来正常显示负号</span><br>G = nx.Graph(W)<span class="hljs-comment">#创建无向图类</span><br>plt.figure(dpi=<span class="hljs-number">500</span>)<br>node_labels=<span class="hljs-built_in">dict</span>(<span class="hljs-built_in">zip</span>(<span class="hljs-built_in">range</span>(<span class="hljs-number">6</span>),[<span class="hljs-string">&quot;v1(80)&quot;</span>,<span class="hljs-string">&quot;v2(90)&quot;</span>,<span class="hljs-string">&quot;v3(30)&quot;</span>,<span class="hljs-string">&quot;v4(20)&quot;</span>,<span class="hljs-string">&quot;v5(60)&quot;</span>,<span class="hljs-string">&quot;v6(10)&quot;</span>])) <span class="hljs-comment">#构造用于顶点标记的字典</span><br>pos = nx.shell_layout(G)<span class="hljs-comment">#设置布局</span><br>w = nx.get_edge_attributes(G,<span class="hljs-string">&quot;weight&quot;</span>) <span class="hljs-comment">#获取边的权重</span><br>nx.draw_networkx(G,pos,node_size=<span class="hljs-number">270</span>,labels=node_labels,font_size=<span class="hljs-number">5</span>) <span class="hljs-comment">#绘制图</span><br>nx.draw_networkx_edge_labels(G,pos,font_size=<span class="hljs-number">10</span>,edge_labels=w)<span class="hljs-comment">#标记权重</span><br>plt.savefig(<span class="hljs-string">&quot;figure3.png&quot;</span>)<br>plt.show()<br>d = nx.shortest_path_length(G,weight=<span class="hljs-string">&quot;weight&quot;</span>) <span class="hljs-comment">#计算各个点之间的最短路径</span><br>s = <span class="hljs-built_in">dict</span>(d) <span class="hljs-comment">#将其转化为字典</span><br>res = np.zeros((<span class="hljs-number">6</span>,<span class="hljs-number">6</span>))<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">6</span>):<br>    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">6</span>):<br>        res[i][j] = s[i][j]<span class="hljs-comment">#构建最短路径矩阵</span><br>df = pd.DataFrame(res,columns=[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>],index=[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>])<br>df.head(<span class="hljs-number">10</span>)<br></code></pre></td></tr></table></figure>
+<p>结果如下：</p>
+<p><img src="https://drive.imgod.me/api/v3/file/get/61809/dsafasdfasdf.png?sign=_QGe0dW7S17pNT5pPBQKAehOaIoBxn-pkOQ5epMQYAg%3D%3A0" srcset="/img/loading.gif" lazyload></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" class="category-chain-item">数学建模</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/%E5%9B%BE%E8%AE%BA/" class="category-chain-item">图论</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>最短路径及其应用</div>
+      <div>http://example.com/posts/24890.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>JangShuan Pang</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年6月26日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/18665.html" title="图论基础及绘制(python)">
+                        <span class="hidden-mobile">图论基础及绘制(python)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.1/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
