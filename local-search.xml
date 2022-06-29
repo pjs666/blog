@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>马尔科夫预测</title>
+    <link href="/posts/30115.html"/>
+    <url>/posts/30115.html</url>
+    
+    <content type="html"><![CDATA[<hr><div class="note note-success">            <p>数学建模 预测 Python</p>          </div><h3 id="马尔科夫预测">马尔科夫预测</h3><h4 id="马尔科夫链的定义">马尔科夫链的定义</h4><p>现实世界中有很多这样的现象,某一系统在已知现在情况的条件下系统未来时刻的情况只与现在有关,而与过去的历史无直接关系.比如研究一个商店的累计销售额.如果现在时刻的累计销售额已知,则未来某一时刻的累计销售额与现在时刻以前的任一时刻累计销售额无关.描述这类随机现象的数学模型称为马尔科夫模型,简称马氏模型.</p><p>定义:设<span class="math inline">\(\{X_n,n=1,2,\dots\}\)</span>是一个随机序列,状态空间<span class="math inline">\(E\)</span>为有限或者可列,对于任意的正整数<span class="math inline">\(m,n\)</span>,若<span class="math inline">\(i,j,i_k\in E(k=1,\dots,n-1),\)</span>有<span class="math inline">\(P\{X_{n+m}=j\vertX_n=i,X_{n-1}=i_{n-1},\cdots,X_{1}=i_1\}=P\{X_{n+m}=j\vertX_n=i\}\)</span>,则称<span class="math inline">\(\{X_n,n=1,2,\dots\}\)</span>为一个马尔科夫链.事实上,可以证明若上述等式对于<span class="math inline">\(m=1\)</span>成立,则它对于任意的正整数<span class="math inline">\(m\)</span>也成立.因此,只要当<span class="math inline">\(m=1\)</span>时上述等式成立,就可以称随机序列<span class="math inline">\(\{X_n,n=1,2,\dots\}\)</span>具有马氏性</p><p>定义:设<span class="math inline">\(\{X_n,n=1,2,\dots\}\)</span>是一个马氏链.如果上述等式右边的条件概率与<span class="math inline">\(n\)</span>无关,即 <span class="math display">\[P\{X_{n+m}=j\vert X_n=i\} = p_{ij}(m)\]</span> 则称<span class="math inline">\(\{X_n,n=1,2,\dots\}\)</span>为时齐的马氏链.称<span class="math inline">\(p_{ij}(m)\)</span>为系统由状态<span class="math inline">\(i\)</span>经过<span class="math inline">\(m\)</span>个时间间隔转移到状态<span class="math inline">\(j\)</span>的转移概率.式<span class="math inline">\((1)\)</span>称为时齐性,它的含义是系统由状态<span class="math inline">\(i\)</span>到状态<span class="math inline">\(j\)</span>的转移概率只依赖于时间间隔的长短,与起始的时刻无关.下面介绍的马氏链假定都是时齐的,为了行文方便省略"时齐"二字.</p><h4 id="转移状态矩阵及柯尔莫哥洛夫定理">转移状态矩阵及柯尔莫哥洛夫定理</h4><p>对于一个马尔科夫链<span class="math inline">\(\{X_n,n=1,2,\dots\}\)</span>,称以<span class="math inline">\(m\)</span>步转移概率<span class="math inline">\(p_{ij}(m)\)</span>为元素的矩阵<span class="math inline">\(P(m)=(p_{ij}(m))\)</span>为马尔科夫链的<span class="math inline">\(m\)</span>步转移矩阵.当<span class="math inline">\(m=1\)</span>时,记<span class="math inline">\(P(1)=P\)</span>称为马尔科夫链的一步状态转移矩阵,或简称转移矩阵.它们具有以下三个基本性质:</p><p><span class="math inline">\((1)\)</span>对一切<span class="math inline">\(i,j\in E,0\le p_{ij}(m)\le1\)</span></p><p><span class="math inline">\((2)\)</span>对一切<span class="math inline">\(i\in E,\sum\limits_{j\inE}P_{ij}(m)=1\)</span></p><p><span class="math inline">\((3)\)</span>对一切<span class="math inline">\(i,j\inE,p_{ij}(0)=\delta_{ij}=\begin{cases}1&amp;,\text{当}i=j\\0,&amp;,\text{当}i\nej\end{cases}\)</span></p><p>当实际问题可以用马尔科夫链来描述时,首先需要确定它的状态空间集参数集合,然后确定它的一步转移概率.关于这一概率的确定,可以由问题的内在规律得到,也可以由过去的经验给出,还可以根据观测数据来估计.</p><p>定理(柯尔莫哥洛夫-----开普曼定理):设<span class="math inline">\(\{X_n,n=1,2,\dots\}\)</span>是一个马尔科夫链,其状态空间<span class="math inline">\(E=\{1,2,\dots\},\)</span>则对任意的正整数<span class="math inline">\(m,n\)</span>,有 <span class="math display">\[p_{ij}(n+m)=\sum\limits_{k\in E}p_{ik}(n)p_{kj}(m),\quad where\,i,j\in E\]</span> 定理:设<span class="math inline">\(P\)</span>是一步马氏链转移矩阵(<span class="math inline">\(P\)</span>的行向量是概率向量),<span class="math inline">\(P^{(0)}\)</span>是初始分布行向量,则第<span class="math inline">\(n\)</span>步的概率分布为 <span class="math display">\[P^{(n)}=P^{(0)}P^{n}\]</span></p><h4 id="转移概率的渐进性质----极限概率分布">转移概率的渐进性质----极限概率分布</h4><p>定义:一个马氏链的转移矩阵<span class="math inline">\(P\)</span>是正则的,当且仅当存在正整数<span class="math inline">\(k\)</span>,使<span class="math inline">\(P^{k}\)</span>的每一个元素都是正数.</p><p>定理:若<span class="math inline">\(P\)</span>是一个马氏链的正则阵,则:</p><p>(1)<span class="math inline">\(P\)</span>有唯一的不动点向量<span class="math inline">\(W\)</span>,<span class="math inline">\(W\)</span>的每一个分量为正.</p><p><span class="math inline">\((2)P\)</span>的<span class="math inline">\(n\)</span>次幂(n为正整数)随<span class="math inline">\(n\)</span>的增加趋近于矩阵<span class="math inline">\(\overline{W}\)</span>,<span class="math inline">\(\overline{W}\)</span>的每一行向量均等于不动点向量<span class="math inline">\(W\)</span></p><p>一般地,设马氏链的状态空间为<span class="math inline">\(E\)</span>,如果对于所有的<span class="math inline">\(i,j\in E\)</span>,状态概率<span class="math inline">\(p_{ij}(n)\)</span>存在极限 <span class="math display">\[\lim\limits_{n\to\infty}p_{ij}(n)=\pi_j\]</span> 或 <span class="math display">\[P(n)=P^{n}\longrightarrow\begin{bmatrix}\pi_1&amp;\pi_2&amp;\cdots&amp;\pi_j&amp;\cdots\\\pi_1&amp;\pi_2&amp;\cdots&amp;\pi_j&amp;\cdots\\\cdots&amp;\cdots&amp;\cdots&amp;\cdots&amp;\cdots\\\pi_1&amp;\pi_2&amp;\cdots&amp;\pi_j&amp;\cdots\\\cdots&amp;\cdots&amp;\cdots&amp;\cdots&amp;\cdots\\\end{bmatrix},\quadn\to\infty\]</span> 则称此链具有遍历性.又若<span class="math inline">\(\sum\limits_{j}\pi_{j}=1\)</span>,则同时称<span class="math inline">\(\pi=[\pi_1,\pi_2,\dots]\)</span>为链的极限分布</p><p>定理:设马氏链<span class="math inline">\(\{X_n,n=1,2,\dots\}\)</span>的状态空间为<span class="math inline">\(E=\{a_1,\dots,a_N\},P=(p_{ij})\)</span>是它的一步转移概率矩阵,如果存在正整数<span class="math inline">\(m\)</span>,使得对任意的<span class="math inline">\(a_i,a_j\in E\)</span>,都有 <span class="math display">\[p_{ij}(m)&gt;0,\,i,j=1,2,\dots,N\]</span> 则此链具有遍历性;且有极限分布<span class="math inline">\(\pi=[\pi_1,\dots,\pi_N],\)</span>它是方程组 <span class="math display">\[\pi = \piP\,\text{或者}\,\pi_j=\sum_{i=1}^{N}\pi_ip_{ij},\quad,j=1,\dots,N\]</span> 的满足条件<span class="math inline">\(\pi_j&gt;0,\sum\limits_{j=1}^{N}\pi_{j}=1\)</span>的唯一解</p><p>例:为适应日益扩大的旅游事业的需要,某城市的甲,乙,丙三个照相馆组成一个联营部,联合经营出租相机的业务.游客可由甲,乙,丙三处任何一处租出相机,用完后,还在三处中任意一处即可.估计其转移概率如下所示.今欲选择其中之一附近设置相机维修点,问该点设在哪一个照相馆为最好?<span class="math display">\[\begin{bmatrix}0.2&amp;0.8&amp;0\\0.8&amp;0&amp;0.2\\0.1&amp;0.3&amp;0.6\end{bmatrix},\quadwhere\quad p_{ij}\text{表示在}i\text{处租,在}j\text{处还的概率}\]</span> 解:设<span class="math inline">\(\{X_n,n=1,2,\dots\}\)</span>是一个马尔科夫链,表示相机第<span class="math inline">\(n\)</span>次租时在甲,乙,丙馆.已知它是一个马尔科夫链,其转移矩阵为<span class="math inline">\((8)\)</span>.考虑维修点的设置地点问题,实际上要计算这一马尔科夫链的极限概率分布.</p><p>已知状态转移矩阵是正则的,极限概率存在,解方程组 <span class="math display">\[\begin{cases}&amp;p_1=0.2p_1+0.8p_2+0.1p_3,\\&amp;p_2=0.8p_1+0.3p_3,\\&amp;p_3=0.2p_2+0.6p_3,\\&amp;p_1+p_2+p_3=1\end{cases}\]</span> 得极限概率<span class="math inline">\(p_1=0.4146,p_2=0.3902,p_3=0.1951\)</span></p><p>由计算可看出,经过长期经营后,该联营部的每驾照相机还到甲,乙,丙照相馆的概率分别是0.4146,0.3902,0.1951.由于还到甲馆的照相机较多,因此维修点设在甲馆较好.但由于还到乙馆的相机与还到甲馆的相差不多,若是乙的其他因素更为有利的话,比如,交通较甲方便,便于零件的运输,电力供应稳定等等,也可以考虑设在乙馆.</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>数学建模</category>
+      
+      <category>预测</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>数学建模</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>最小费用流问题</title>
     <link href="/posts/26295.html"/>
     <url>/posts/26295.html</url>

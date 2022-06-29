@@ -16,24 +16,22 @@
   <meta name="author" content="JangShuan Pang">
   <meta name="keywords" content="">
   
-    <meta name="description" content="数学建模 图论 Python            最小费用流问题 在许多实际问题中,往往还要考虑网络流上流的费用问题.例如,在运输问题中,人们总是希望在完成运输任务的同时,寻求一个能使总费用最小的运输方案. 设\(f_{ij}\)为弧\((v_i,v_j)\)上的流量,\(b_{ij}\)为弧\((v_i,v_j)\)上的单位费用,\(c_{ij}\)为弧\">
+    <meta name="description" content="数学建模 预测 Python            马尔科夫预测 马尔科夫链的定义 现实世界中有很多这样的现象,某一系统在已知现在情况的条件下系统未来时刻的情况只与现在有关,而与过去的历史无直接关系.比如研究一个商店的累计销售额.如果现在时刻的累计销售额已知,则未来某一时刻的累计销售额与现在时刻以前的任一时刻累计销售额无关.描述这类随机现象的数学模型称为马尔科">
 <meta property="og:type" content="article">
-<meta property="og:title" content="最小费用流问题">
-<meta property="og:url" content="http://example.com/posts/26295.html">
+<meta property="og:title" content="马尔科夫预测">
+<meta property="og:url" content="http://example.com/posts/30115.html">
 <meta property="og:site_name" content="网站名称">
-<meta property="og:description" content="数学建模 图论 Python            最小费用流问题 在许多实际问题中,往往还要考虑网络流上流的费用问题.例如,在运输问题中,人们总是希望在完成运输任务的同时,寻求一个能使总费用最小的运输方案. 设\(f_{ij}\)为弧\((v_i,v_j)\)上的流量,\(b_{ij}\)为弧\((v_i,v_j)\)上的单位费用,\(c_{ij}\)为弧\">
+<meta property="og:description" content="数学建模 预测 Python            马尔科夫预测 马尔科夫链的定义 现实世界中有很多这样的现象,某一系统在已知现在情况的条件下系统未来时刻的情况只与现在有关,而与过去的历史无直接关系.比如研究一个商店的累计销售额.如果现在时刻的累计销售额已知,则未来某一时刻的累计销售额与现在时刻以前的任一时刻累计销售额无关.描述这类随机现象的数学模型称为马尔科">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/figure8.png">
-<meta property="article:published_time" content="2022-06-28T15:09:20.062Z">
-<meta property="article:modified_time" content="2022-06-28T15:11:02.453Z">
+<meta property="article:published_time" content="2022-06-29T08:11:11.607Z">
+<meta property="article:modified_time" content="2022-06-29T08:14:39.612Z">
 <meta property="article:author" content="JangShuan Pang">
 <meta property="article:tag" content="数学建模">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/figure8.png">
   
   
   
-  <title>最小费用流问题 - 网站名称</title>
+  <title>马尔科夫预测 - 网站名称</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -210,7 +208,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="最小费用流问题"></span>
+            <span id="subtitle" data-typed-text="马尔科夫预测"></span>
           
         </div>
 
@@ -221,8 +219,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-06-28 23:09" pubdate>
-          2022年6月28日 晚上
+        <time datetime="2022-06-29 16:11" pubdate>
+          2022年6月29日 下午
         </time>
       </span>
     
@@ -233,7 +231,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.9k 字
+          3.3k 字
         
       </span>
     
@@ -244,7 +242,7 @@
         
         
         
-          16 分钟
+          28 分钟
         
       </span>
     
@@ -282,29 +280,67 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">最小费用流问题</h1>
+            <h1 style="display: none">马尔科夫预测</h1>
             
             
               <div class="markdown-body">
                 
                 <hr>
 <div class="note note-success">
-            <p>数学建模 图论 Python</p>
+            <p>数学建模 预测 Python</p>
           </div>
-<h3 id="最小费用流问题">最小费用流问题</h3>
-<p>在许多实际问题中,往往还要考虑网络流上流的费用问题.例如,在运输问题中,人们总是希望在完成运输任务的同时,寻求一个能使总费用最小的运输方案.</p>
-<p>设<span class="math inline">\(f_{ij}\)</span>为弧<span class="math inline">\((v_i,v_j)\)</span>上的流量,<span class="math inline">\(b_{ij}\)</span>为弧<span class="math inline">\((v_i,v_j)\)</span>上的单位费用,<span class="math inline">\(c_{ij}\)</span>为弧<span class="math inline">\((v_I,v_j)\)</span>上的容量,则最小费用流问题可以用如下数学模型描述:
+<h3 id="马尔科夫预测">马尔科夫预测</h3>
+<h4 id="马尔科夫链的定义">马尔科夫链的定义</h4>
+<p>现实世界中有很多这样的现象,某一系统在已知现在情况的条件下系统未来时刻的情况只与现在有关,而与过去的历史无直接关系.比如研究一个商店的累计销售额.如果现在时刻的累计销售额已知,则未来某一时刻的累计销售额与现在时刻以前的任一时刻累计销售额无关.描述这类随机现象的数学模型称为马尔科夫模型,简称马氏模型.</p>
+<p>定义:设<span class="math inline">\(\{X_n,n=1,2,\dots\}\)</span>是一个随机序列,状态空间<span class="math inline">\(E\)</span>为有限或者可列,对于任意的正整数<span class="math inline">\(m,n\)</span>,若<span class="math inline">\(i,j,i_k\in E(k=1,\dots,n-1),\)</span>有<span class="math inline">\(P\{X_{n+m}=j\vert
+X_n=i,X_{n-1}=i_{n-1},\cdots,X_{1}=i_1\}=P\{X_{n+m}=j\vert
+X_n=i\}\)</span>,则称<span class="math inline">\(\{X_n,n=1,2,\dots\}\)</span>为一个马尔科夫链.事实上,可以证明若上述等式对于<span class="math inline">\(m=1\)</span>成立,则它对于任意的正整数<span class="math inline">\(m\)</span>也成立.因此,只要当<span class="math inline">\(m=1\)</span>时上述等式成立,就可以称随机序列<span class="math inline">\(\{X_n,n=1,2,\dots\}\)</span>具有马氏性</p>
+<p>定义:设<span class="math inline">\(\{X_n,n=1,2,\dots\}\)</span>是一个马氏链.如果上述等式右边的条件概率与<span class="math inline">\(n\)</span>无关,即 <span class="math display">\[
+P\{X_{n+m}=j\vert X_n=i\} = p_{ij}(m)
+\]</span> 则称<span class="math inline">\(\{X_n,n=1,2,\dots\}\)</span>为时齐的马氏链.称<span class="math inline">\(p_{ij}(m)\)</span>为系统由状态<span class="math inline">\(i\)</span>经过<span class="math inline">\(m\)</span>个时间间隔转移到状态<span class="math inline">\(j\)</span>的转移概率.式<span class="math inline">\((1)\)</span>称为时齐性,它的含义是系统由状态<span class="math inline">\(i\)</span>到状态<span class="math inline">\(j\)</span>的转移概率只依赖于时间间隔的长短,与起始的时刻无关.下面介绍的马氏链假定都是时齐的,为了行文方便省略"时齐"二字.</p>
+<h4 id="转移状态矩阵及柯尔莫哥洛夫定理">转移状态矩阵及柯尔莫哥洛夫定理</h4>
+<p>对于一个马尔科夫链<span class="math inline">\(\{X_n,n=1,2,\dots\}\)</span>,称以<span class="math inline">\(m\)</span>步转移概率<span class="math inline">\(p_{ij}(m)\)</span>为元素的矩阵<span class="math inline">\(P(m)=(p_{ij}(m))\)</span>为马尔科夫链的<span class="math inline">\(m\)</span>步转移矩阵.当<span class="math inline">\(m=1\)</span>时,记<span class="math inline">\(P(1)=P\)</span>称为马尔科夫链的一步状态转移矩阵,或简称转移矩阵.它们具有以下三个基本性质:</p>
+<p><span class="math inline">\((1)\)</span>对一切<span class="math inline">\(i,j\in E,0\le p_{ij}(m)\le1\)</span></p>
+<p><span class="math inline">\((2)\)</span>对一切<span class="math inline">\(i\in E,\sum\limits_{j\in
+E}P_{ij}(m)=1\)</span></p>
+<p><span class="math inline">\((3)\)</span>对一切<span class="math inline">\(i,j\in
+E,p_{ij}(0)=\delta_{ij}=\begin{cases}1&amp;,\text{当}i=j\\0,&amp;,\text{当}i\ne
+j\end{cases}\)</span></p>
+<p>当实际问题可以用马尔科夫链来描述时,首先需要确定它的状态空间集参数集合,然后确定它的一步转移概率.关于这一概率的确定,可以由问题的内在规律得到,也可以由过去的经验给出,还可以根据观测数据来估计.</p>
+<p>定理(柯尔莫哥洛夫-----开普曼定理):设<span class="math inline">\(\{X_n,n=1,2,\dots\}\)</span>是一个马尔科夫链,其状态空间<span class="math inline">\(E=\{1,2,\dots\},\)</span>则对任意的正整数<span class="math inline">\(m,n\)</span>,有 <span class="math display">\[
+p_{ij}(n+m)=\sum\limits_{k\in E}p_{ik}(n)p_{kj}(m),\quad where\,i,j\in E
+\]</span> 定理:设<span class="math inline">\(P\)</span>是一步马氏链转移矩阵(<span class="math inline">\(P\)</span>的行向量是概率向量),<span class="math inline">\(P^{(0)}\)</span>是初始分布行向量,则第<span class="math inline">\(n\)</span>步的概率分布为 <span class="math display">\[
+P^{(n)}=P^{(0)}P^{n}
+\]</span></p>
+<h4 id="转移概率的渐进性质----极限概率分布">转移概率的渐进性质----极限概率分布</h4>
+<p>定义:一个马氏链的转移矩阵<span class="math inline">\(P\)</span>是正则的,当且仅当存在正整数<span class="math inline">\(k\)</span>,使<span class="math inline">\(P^{k}\)</span>的每一个元素都是正数.</p>
+<p>定理:若<span class="math inline">\(P\)</span>是一个马氏链的正则阵,则:</p>
+<p>(1)<span class="math inline">\(P\)</span>有唯一的不动点向量<span class="math inline">\(W\)</span>,<span class="math inline">\(W\)</span>的每一个分量为正.</p>
+<p><span class="math inline">\((2)P\)</span>的<span class="math inline">\(n\)</span>次幂(n为正整数)随<span class="math inline">\(n\)</span>的增加趋近于矩阵<span class="math inline">\(\overline{W}\)</span>,<span class="math inline">\(\overline{W}\)</span>的每一行向量均等于不动点向量<span class="math inline">\(W\)</span></p>
+<p>一般地,设马氏链的状态空间为<span class="math inline">\(E\)</span>,如果对于所有的<span class="math inline">\(i,j\in E\)</span>,状态概率<span class="math inline">\(p_{ij}(n)\)</span>存在极限 <span class="math display">\[
+\lim\limits_{n\to\infty}p_{ij}(n)=\pi_j
+\]</span> 或 <span class="math display">\[
+P(n)=P^{n}\longrightarrow\begin{bmatrix}\pi_1&amp;\pi_2&amp;\cdots&amp;\pi_j&amp;\cdots\\
+\pi_1&amp;\pi_2&amp;\cdots&amp;\pi_j&amp;\cdots\\
+\cdots&amp;\cdots&amp;\cdots&amp;\cdots&amp;\cdots\\\pi_1&amp;\pi_2&amp;\cdots&amp;\pi_j&amp;\cdots\\\cdots&amp;\cdots&amp;\cdots&amp;\cdots&amp;\cdots\\\end{bmatrix},\quad
+n\to\infty
+\]</span> 则称此链具有遍历性.又若<span class="math inline">\(\sum\limits_{j}\pi_{j}=1\)</span>,则同时称<span class="math inline">\(\pi=[\pi_1,\pi_2,\dots]\)</span>为链的极限分布</p>
+<p>定理:设马氏链<span class="math inline">\(\{X_n,n=1,2,\dots\}\)</span>的状态空间为<span class="math inline">\(E=\{a_1,\dots,a_N\},P=(p_{ij})\)</span>是它的一步转移概率矩阵,如果存在正整数<span class="math inline">\(m\)</span>,使得对任意的<span class="math inline">\(a_i,a_j\in E\)</span>,都有 <span class="math display">\[
+p_{ij}(m)&gt;0,\,i,j=1,2,\dots,N
+\]</span> 则此链具有遍历性;且有极限分布<span class="math inline">\(\pi=[\pi_1,\dots,\pi_N],\)</span>它是方程组 <span class="math display">\[
+\pi = \pi
+P\,\text{或者}\,\pi_j=\sum_{i=1}^{N}\pi_ip_{ij},\quad,j=1,\dots,N
+\]</span> 的满足条件<span class="math inline">\(\pi_j&gt;0,\sum\limits_{j=1}^{N}\pi_{j}=1\)</span>的唯一解</p>
+<p>例:为适应日益扩大的旅游事业的需要,某城市的甲,乙,丙三个照相馆组成一个联营部,联合经营出租相机的业务.游客可由甲,乙,丙三处任何一处租出相机,用完后,还在三处中任意一处即可.估计其转移概率如下所示.今欲选择其中之一附近设置相机维修点,问该点设在哪一个照相馆为最好?
 <span class="math display">\[
-\min\quad\sum_{(v_i,v_j)\in A}b_{ij}f_{ij},\\
-s.t. \begin{cases}\sum\limits_{j:(v_i,v_j)\in
-A}f_{ij}-\sum\limits_{j:(v_j,v_i)\in
-A}f_{ji}=\begin{cases}v&amp;,i=s\\-v&amp;,i=t\\0&amp;,i\ne
-s,t,\end{cases} \\0\le f_{ij}\le c_{ij},\forall(v_i,v_j)\in A\end{cases}
-\]</span> 当<span class="math inline">\(v=\)</span>最大流<span class="math inline">\(v_{max}\)</span>时,本问题就是最小费用最大流问题;如果<span class="math inline">\(v&gt;v_{max}\)</span>,本问题无解.</p>
-<p>例:如下图带有运费的网络,求从<span class="math inline">\(v_1\)</span>到<span class="math inline">\(v_6\)</span>的最小费用最大流,其中弧上权重的第一个数字是网络的容量,第二个数字是网络的单位运费.</p>
-<p><img src="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/figure8.png" srcset="/img/loading.gif" lazyload></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> networkx <span class="hljs-keyword">as</span> nx<br><span class="hljs-keyword">from</span> networkx.algorithms.matching <span class="hljs-keyword">import</span> max_weight_matching<br><span class="hljs-keyword">import</span> seaborn <span class="hljs-keyword">as</span> sns<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br>sns.set_theme(style=<span class="hljs-string">&quot;dark&quot;</span>)<span class="hljs-comment">#用来设置主题背景</span><br>plt.rcParams[<span class="hljs-string">&quot;font.sans-serif&quot;</span>] = [<span class="hljs-string">&quot;SimHei&quot;</span>] <span class="hljs-comment">#用来正常显示中文标签</span><br>plt.rcParams[<span class="hljs-string">&quot;axes.unicode_minus&quot;</span>] = <span class="hljs-literal">False</span> <span class="hljs-comment">#用来正常显示负号</span><br>L = [(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">5</span>,<span class="hljs-number">3</span>),(<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">3</span>,<span class="hljs-number">6</span>),(<span class="hljs-number">2</span>,<span class="hljs-number">4</span>,<span class="hljs-number">2</span>,<span class="hljs-number">8</span>),(<span class="hljs-number">3</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>),(<span class="hljs-number">3</span>,<span class="hljs-number">5</span>,<span class="hljs-number">4</span>,<span class="hljs-number">2</span>),(<span class="hljs-number">4</span>,<span class="hljs-number">3</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>),(<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>),(<span class="hljs-number">4</span>,<span class="hljs-number">6</span>,<span class="hljs-number">2</span>,<span class="hljs-number">10</span>),(<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">5</span>,<span class="hljs-number">2</span>)] <span class="hljs-comment">#注意此处不能直接由邻接矩阵生成图</span><br>G = nx.DiGraph()<br><span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(L)):<br>    G.add_edge(L[k][<span class="hljs-number">0</span>]-<span class="hljs-number">1</span>,L[k][<span class="hljs-number">1</span>]-<span class="hljs-number">1</span>,capacity=L[k][<span class="hljs-number">2</span>],weight=L[k][<span class="hljs-number">3</span>])<br>mincostFlow = nx.max_flow_min_cost(G,<span class="hljs-number">0</span>,<span class="hljs-number">5</span>)<span class="hljs-comment">#求解网络最小费用最大流问题</span><br>dict_temp = &#123;&#125;<br><span class="hljs-keyword">for</span> i,item <span class="hljs-keyword">in</span> mincostFlow.items():<br>    <span class="hljs-keyword">for</span> j,weight <span class="hljs-keyword">in</span> item.items():<br>        dict_temp[(i,j)] = weight <span class="hljs-comment">#改变字典结构</span><br>plt.figure(dpi=<span class="hljs-number">500</span>)<br>node_labels=<span class="hljs-built_in">dict</span>(<span class="hljs-built_in">zip</span>(<span class="hljs-built_in">range</span>(<span class="hljs-number">6</span>),[<span class="hljs-string">&quot;V&quot;</span>+<span class="hljs-built_in">str</span>(i) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>,<span class="hljs-number">7</span>)])) <span class="hljs-comment">#构造用于顶点标记的字典</span><br>pos = nx.circular_layout(G)<span class="hljs-comment">#设置布局</span><br>path_edges = [key <span class="hljs-keyword">for</span> key,item <span class="hljs-keyword">in</span> dict_temp.items() <span class="hljs-keyword">if</span> item !=<span class="hljs-number">0</span>]<br>nx.draw_networkx(G,pos,node_size=<span class="hljs-number">270</span>,labels=node_labels) <span class="hljs-comment">#绘制图</span><br>nx.draw_networkx_edge_labels(G,pos,font_size=<span class="hljs-number">10</span>,edge_labels=dict_temp)<span class="hljs-comment">#标记权重</span><br>nx.draw_networkx_edges(G,pos,edgelist=path_edges,edge_color=<span class="hljs-string">&quot;r&quot;</span>,width=<span class="hljs-number">3</span>)<span class="hljs-comment">#标记路径</span><br>plt.savefig(<span class="hljs-string">&quot;figure9.png&quot;</span>)<br>plt.show()<br>mincost = nx.cost_of_flow(G,mincostFlow)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;最小费用为&#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(mincost))<br></code></pre></td></tr></table></figure>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">最小费用为63<br></code></pre></td></tr></table></figure>
+\begin{bmatrix}0.2&amp;0.8&amp;0\\0.8&amp;0&amp;0.2\\0.1&amp;0.3&amp;0.6\end{bmatrix},\quad
+where\quad p_{ij}\text{表示在}i\text{处租,在}j\text{处还的概率}
+\]</span> 解:设<span class="math inline">\(\{
+X_n,n=1,2,\dots\}\)</span>是一个马尔科夫链,表示相机第<span class="math inline">\(n\)</span>次租时在甲,乙,丙馆.已知它是一个马尔科夫链,其转移矩阵为<span class="math inline">\((8)\)</span>.考虑维修点的设置地点问题,实际上要计算这一马尔科夫链的极限概率分布.</p>
+<p>已知状态转移矩阵是正则的,极限概率存在,解方程组 <span class="math display">\[
+\begin{cases}&amp;p_1=0.2p_1+0.8p_2+0.1p_3,\\&amp;p_2=0.8p_1+0.3p_3,\\&amp;p_3=0.2p_2+0.6p_3,\\&amp;p_1+p_2+p_3=1\end{cases}
+\]</span> 得极限概率<span class="math inline">\(p_1=0.4146,p_2=0.3902,p_3=0.1951\)</span></p>
+<p>由计算可看出,经过长期经营后,该联营部的每驾照相机还到甲,乙,丙照相馆的概率分别是0.4146,0.3902,0.1951.由于还到甲馆的照相机较多,因此维修点设在甲馆较好.但由于还到乙馆的相机与还到甲馆的相差不多,若是乙的其他因素更为有利的话,比如,交通较甲方便,便于零件的运输,电力供应稳定等等,也可以考虑设在乙馆.</p>
 
                 
               </div>
@@ -328,7 +364,7 @@ s,t,\end{cases} \\0\le f_{ij}\le c_{ij},\forall(v_i,v_j)\in A\end{cases}
   
     <span>></span>
     
-  <a href="/categories/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/%E5%9B%BE%E8%AE%BA/" class="category-chain-item">图论</a>
+  <a href="/categories/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/%E9%A2%84%E6%B5%8B/" class="category-chain-item">预测</a>
   
   
 
@@ -357,8 +393,8 @@ s,t,\end{cases} \\0\le f_{ij}\le c_{ij},\forall(v_i,v_j)\in A\end{cases}
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>最小费用流问题</div>
-      <div>http://example.com/posts/26295.html</div>
+      <div>马尔科夫预测</div>
+      <div>http://example.com/posts/30115.html</div>
     </div>
     <div class="license-meta">
       
@@ -370,7 +406,7 @@ s,t,\end{cases} \\0\le f_{ij}\le c_{ij},\forall(v_i,v_j)\in A\end{cases}
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年6月28日</div>
+          <div>2022年6月29日</div>
         </div>
       
       
@@ -400,18 +436,12 @@ s,t,\end{cases} \\0\le f_{ij}\le c_{ij},\forall(v_i,v_j)\in A\end{cases}
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/posts/30115.html" title="马尔科夫预测">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">马尔科夫预测</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/posts/26900.html" title="最大流问题">
-                        <span class="hidden-mobile">最大流问题</span>
+                      <a href="/posts/26295.html" title="最小费用流问题">
+                        <span class="hidden-mobile">最小费用流问题</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
