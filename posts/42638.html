@@ -1,0 +1,794 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="JangShuan Pang">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Python pandas            Groupby机制 在数据科学中有一个表示分组运算的术语&quot;split-apply-combine&quot;。第一阶段，pandas对象会根据你所提供的一个或多个“分组键”拆分为多组。拆分操作是在对象的特定轴上执行的。然后，将一个函数应用到各个分组并产生新的值。最后，所有这些函数执行结果会被合并到最终的结果对象中。 数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Groupby机制">
+<meta property="og:url" content="http://example.com/posts/42638.html">
+<meta property="og:site_name" content="网站名称">
+<meta property="og:description" content="Python pandas            Groupby机制 在数据科学中有一个表示分组运算的术语&quot;split-apply-combine&quot;。第一阶段，pandas对象会根据你所提供的一个或多个“分组键”拆分为多组。拆分操作是在对象的特定轴上执行的。然后，将一个函数应用到各个分组并产生新的值。最后，所有这些函数执行结果会被合并到最终的结果对象中。 数据">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/QQ截图20220705185705.png">
+<meta property="og:image" content="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/QQ截图20220705190158.png">
+<meta property="og:image" content="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/QQ截图20220705190514.png">
+<meta property="og:image" content="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/QQ截图20220705190636.png">
+<meta property="og:image" content="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/QQ截图20220705191251.png">
+<meta property="og:image" content="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/QQ截图20220705191251.png">
+<meta property="article:published_time" content="2022-07-05T13:45:13.117Z">
+<meta property="article:modified_time" content="2022-07-05T13:48:14.726Z">
+<meta property="article:author" content="JangShuan Pang">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/QQ截图20220705185705.png">
+  
+  
+  
+  <title>Groupby机制 - 网站名称</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>P</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Groupby机制"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-07-05 21:45" pubdate>
+          2022年7月5日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          54 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Groupby机制</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <hr>
+<div class="note note-success">
+            <p>Python pandas</p>
+          </div>
+<h2 id="groupby机制">Groupby机制</h2>
+<p>在数据科学中有一个表示分组运算的术语"split-apply-combine"。第一阶段，pandas对象会根据你所提供的一个或多个“分组键”拆分为多组。拆分操作是在对象的特定轴上执行的。然后，将一个函数应用到各个分组并产生新的值。最后，所有这些函数执行结果会被合并到最终的结果对象中。</p>
+<h3 id="数据分组">数据分组</h3>
+<p>分组键：</p>
+<ul>
+<li>列表或数组，其长度与待分组的轴一样。</li>
+<li>表示DataFrame某个列名的值。</li>
+<li>字典或Series，给出待分组轴上的值与分组名之间的对应关系。</li>
+<li>函数，用于处理轴索引或索引中的各个标签。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><code class="hljs python">&gt;&gt;&gt;<span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br>&gt;&gt;&gt;<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br>&gt;&gt;&gt;df = pd.DataFrame(&#123;<span class="hljs-string">&quot;key1&quot;</span>:[<span class="hljs-string">&quot;a&quot;</span>,<span class="hljs-string">&quot;a&quot;</span>,<span class="hljs-string">&quot;b&quot;</span>,<span class="hljs-string">&quot;b&quot;</span>,<span class="hljs-string">&quot;a&quot;</span>],<span class="hljs-string">&quot;key2&quot;</span>:[<span class="hljs-string">&quot;one&quot;</span>,<span class="hljs-string">&quot;two&quot;</span>,<span class="hljs-string">&quot;one&quot;</span>,<span class="hljs-string">&quot;two&quot;</span>,<span class="hljs-string">&quot;one&quot;</span>],<span class="hljs-string">&quot;data1&quot;</span>:np.random.randn(<span class="hljs-number">5</span>),<span class="hljs-string">&quot;data2&quot;</span>:np.random.randn(<span class="hljs-number">5</span>)&#125;)<br>&gt;&gt;&gt;df<br>	key1	key2	data1	data2<br><span class="hljs-number">0</span>	a	one	-<span class="hljs-number">1.260911</span>	-<span class="hljs-number">0.241765</span><br><span class="hljs-number">1</span>	a	two	-<span class="hljs-number">1.055654</span>	-<span class="hljs-number">1.155897</span><br><span class="hljs-number">2</span>	b	one	<span class="hljs-number">0.390380</span>	-<span class="hljs-number">0.375067</span><br><span class="hljs-number">3</span>	b	two	<span class="hljs-number">0.889461</span>	<span class="hljs-number">1.772159</span><br><span class="hljs-number">4</span>	a	one	<span class="hljs-number">0.570429</span>	-<span class="hljs-number">0.039133</span><br>&gt;&gt;&gt;grouped = df[<span class="hljs-string">&quot;data1&quot;</span>].groupby(df[<span class="hljs-string">&quot;key1&quot;</span>]) <span class="hljs-comment">#该分组键本质是数组</span><br><span class="hljs-comment">#上述过程等价于</span><br>&gt;&gt;&gt;grouped = df.groupby(df[<span class="hljs-string">&quot;key1&quot;</span>])[<span class="hljs-string">&quot;data1&quot;</span>]<br>&gt;&gt;&gt;grouped<span class="hljs-comment">#变量grouped是Groupby对象，它实际上没有进行任何计算，只是含有一些关于分组键的中间数据。</span><br>&lt;pandas.core.groupby.generic.SeriesGroupBy <span class="hljs-built_in">object</span> at <span class="hljs-number">0x000001BDEE8B67C0</span>&gt;<br>&gt;&gt;&gt;grouped.mean()<br>key1<br>a   -<span class="hljs-number">0.582045</span><br>b    <span class="hljs-number">0.639921</span><br>Name: data1, dtype: float64<br><span class="hljs-comment">#分组键不仅仅可以为一个数组，还可以为数组的列表</span><br>&gt;&gt;&gt;means = df[<span class="hljs-string">&quot;data1&quot;</span>].groupby([df[<span class="hljs-string">&quot;key1&quot;</span>],df[<span class="hljs-string">&quot;key2&quot;</span>]]).mean()<br>&gt;&gt;&gt;means<br>key1  key2<br>a     one    -<span class="hljs-number">0.345241</span><br>      two    -<span class="hljs-number">1.055654</span><br>b     one     <span class="hljs-number">0.390380</span><br>      two     <span class="hljs-number">0.889461</span><br>Name: data1, dtype: float64<br>&gt;&gt;&gt;means.unstack()<br>key2	one	two<br>key1		<br>a	-<span class="hljs-number">0.345241</span>	-<span class="hljs-number">1.055654</span><br>b	<span class="hljs-number">0.390380</span>	<span class="hljs-number">0.889461</span><br><span class="hljs-comment">#分组键还可以为列名</span><br>&gt;&gt;&gt;df.groupby(<span class="hljs-string">&quot;key1&quot;</span>).mean()<br>	data1	data2<br>key1		<br>a	-<span class="hljs-number">0.582045</span>	-<span class="hljs-number">0.478932</span><br>b	<span class="hljs-number">0.639921</span>	<span class="hljs-number">0.698546</span><br><span class="hljs-comment">#还可以为列名组成的列表</span><br>&gt;&gt;&gt;df.groupby([<span class="hljs-string">&quot;key1&quot;</span>,<span class="hljs-string">&quot;key2&quot;</span>]).mean()<br>key1  key2<br>a     one    -<span class="hljs-number">0.345241</span><br>      two    -<span class="hljs-number">1.055654</span><br>b     one     <span class="hljs-number">0.390380</span><br>      two     <span class="hljs-number">0.889461</span><br> <span class="hljs-comment">#默认情况下数值列会进行聚合，而非数值列会被从结果中排除。</span><br>&gt;&gt;&gt;df.groupby([<span class="hljs-string">&quot;key1&quot;</span>,<span class="hljs-string">&quot;key2&quot;</span>]).size()<br>key1  key2<br>a     one     <span class="hljs-number">2</span><br>      two     <span class="hljs-number">1</span><br>b     one     <span class="hljs-number">1</span><br>      two     <span class="hljs-number">1</span><br>dtype: int64<br><span class="hljs-comment">#通过字典或Series进行分组</span><br>&gt;&gt;&gt;mapping = &#123;<span class="hljs-number">0</span>:<span class="hljs-string">&quot;red&quot;</span>,<span class="hljs-number">1</span>:<span class="hljs-string">&quot;red&quot;</span>,<span class="hljs-number">2</span>:<span class="hljs-string">&quot;red&quot;</span>,<span class="hljs-number">3</span>:<span class="hljs-string">&quot;blue&quot;</span>,<span class="hljs-number">4</span>:<span class="hljs-string">&quot;blue&quot;</span>&#125;<br>&gt;&gt;&gt;df.groupby(mapping).size()<br>blue    <span class="hljs-number">2</span><br>red     <span class="hljs-number">3</span><br>dtype: int64<br><span class="hljs-comment">#series和字典一样，都是将索引值按照某种映射关系进行分组</span><br>&gt;&gt;&gt;series = pd.Series(mapping)<br>&gt;&gt;&gt;df.groupby(series),size()<br>blue    <span class="hljs-number">2</span><br>red     <span class="hljs-number">3</span><br>dtype: int64<br></code></pre></td></tr></table></figure>
+<h4 id="通过函数进行分组">通过函数进行分组</h4>
+<p>比起使用字典或Series，使用python函数是一种更原生的方法定义分组映射。任何被当做分组键的函数都会在各个索引值上被调用一次，其返回值就会被用作分组名称。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python">&gt;&gt;&gt;<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_letter_type</span>(<span class="hljs-params">letter</span>):<br><span class="hljs-meta">&gt;&gt;&gt; </span>   <span class="hljs-keyword">if</span> letter[<span class="hljs-number">0</span>].lower() <span class="hljs-keyword">in</span> <span class="hljs-string">&quot;aeiou&quot;</span>:<br><span class="hljs-meta">&gt;&gt;&gt; </span>       <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;元音&quot;</span><br><span class="hljs-meta">&gt;&gt;&gt; </span>   <span class="hljs-keyword">else</span>:<br><span class="hljs-meta">&gt;&gt;&gt; </span>       <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;辅音&quot;</span><br>&gt;&gt;&gt;df.set_index(<span class="hljs-string">&quot;key2&quot;</span>).groupby(get_letter_type).size()<br>key2<br>元音    <span class="hljs-number">3</span><br>辅音    <span class="hljs-number">2</span><br>dtype: int64<br></code></pre></td></tr></table></figure>
+<h3 id="数据聚合">数据聚合</h3>
+<p>聚合指的是任何能够从数组产生标量值的数据转化过程。下表给出了常见的聚合运算。</p>
+<table>
+<thead>
+<tr class="header">
+<th>函数名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>count</td>
+<td>分组中非NA值的数量</td>
+</tr>
+<tr class="even">
+<td>sum</td>
+<td>非NA值的和</td>
+</tr>
+<tr class="odd">
+<td>mean</td>
+<td>非NA值的平均值</td>
+</tr>
+<tr class="even">
+<td>median</td>
+<td>非NA值的算术中位数</td>
+</tr>
+<tr class="odd">
+<td>std、var</td>
+<td>无偏（分母为n-1）标准差和方差</td>
+</tr>
+<tr class="even">
+<td>min、max</td>
+<td>非NA值的最小值和最大值</td>
+</tr>
+<tr class="odd">
+<td>prod</td>
+<td>非NA值的积</td>
+</tr>
+<tr class="even">
+<td>first、last</td>
+<td>第一个和最后一个非NA值</td>
+</tr>
+</tbody>
+</table>
+<p>除了上述函数，还可以使用自己发明的聚合运算，还可以调用分组对象上已经定义好的任何方法。例如，quantile可以计算series或DataFrame列的样本分位数。</p>
+<p>虽然quantile并没用明确的实现于GroupBy,但他是一个Series方法，所以这里是能用的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">&gt;&gt;&gt;grouped = df.groupby(<span class="hljs-string">&quot;key1&quot;</span>)[<span class="hljs-string">&quot;data1&quot;</span>].quantile(<span class="hljs-number">0.9</span>)<br>&gt;&gt;&gt;grouped<br>key1<br>a    <span class="hljs-number">0.245213</span><br>b    <span class="hljs-number">0.839553</span><br>Name: data1, dtype: float64<br></code></pre></td></tr></table></figure>
+<p>如果使用自己的聚合函数，只需要将其传入agg方法即可：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">&gt;&gt;&gt;<span class="hljs-keyword">def</span> <span class="hljs-title function_">peak_to_peak</span>(<span class="hljs-params">arr</span>):<br><span class="hljs-meta">&gt;&gt;&gt; </span>   <span class="hljs-keyword">return</span> arr.<span class="hljs-built_in">max</span>()-arr.<span class="hljs-built_in">min</span>()<br>&gt;&gt;&gt;df.groupby(<span class="hljs-string">&quot;key1&quot;</span>)[<span class="hljs-string">&quot;data1&quot;</span>].agg(peak_to_peak)<br>key1<br>a    <span class="hljs-number">1.831340</span><br>b    <span class="hljs-number">0.499081</span><br>Name: data1, dtype: float64<br></code></pre></td></tr></table></figure>
+<h4 id="对一列应用多个函数">对一列应用多个函数</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">&gt;&gt;&gt;grouped = df.groupby([<span class="hljs-string">&quot;key1&quot;</span>,<span class="hljs-string">&quot;key2&quot;</span>])[<span class="hljs-string">&quot;data1&quot;</span>]<br>&gt;&gt;&gt;grouped.agg([peak_to_peak,<span class="hljs-string">&quot;mean&quot;</span>,<span class="hljs-string">&quot;std&quot;</span>])<br></code></pre></td></tr></table></figure>
+<p><img src="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/QQ截图20220705185705.png" srcset="/img/loading.gif" lazyload></p>
+<p>我们可以看出，当我们传入一组函数或者函数名的时候，得到的DataFrame的列会以函数名命名。</p>
+<p>我们可以传入一个由（name，function）元组组成的列表，则各元组的第一个元素就会被用作DataFrame的列名。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">&gt;&gt;&gt;grouped.agg([(<span class="hljs-string">&quot;极差&quot;</span>,peak_to_peak),(<span class="hljs-string">&quot;均值&quot;</span>,<span class="hljs-string">&quot;mean&quot;</span>),(<span class="hljs-string">&quot;方差&quot;</span>,<span class="hljs-string">&quot;std&quot;</span>)])<br></code></pre></td></tr></table></figure>
+<p><img src="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/QQ截图20220705190158.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="对不同的列应用相同的函数组">对不同的列应用相同的函数组</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">&gt;&gt;&gt;grouped = df.groupby([<span class="hljs-string">&quot;key1&quot;</span>,<span class="hljs-string">&quot;key2&quot;</span>])[<span class="hljs-string">&quot;data1&quot;</span>,<span class="hljs-string">&quot;data2&quot;</span>]<br>&gt;&gt;&gt;res = grouped.agg([(<span class="hljs-string">&quot;极差&quot;</span>,peak_to_peak),(<span class="hljs-string">&quot;均值&quot;</span>,<span class="hljs-string">&quot;mean&quot;</span>),(<span class="hljs-string">&quot;方差&quot;</span>,<span class="hljs-string">&quot;std&quot;</span>)])<br></code></pre></td></tr></table></figure>
+<p><img src="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/QQ截图20220705190514.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">&gt;&gt;&gt;res[<span class="hljs-string">&quot;data1&quot;</span>]<br></code></pre></td></tr></table></figure>
+<p><img src="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/QQ截图20220705190636.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="对不同的列应用不同的函数组">对不同的列应用不同的函数组</h4>
+<p>具体的方法是向agg传入一个从列名映射到函数的字典。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">grouped.agg(&#123;<span class="hljs-string">&quot;data1&quot;</span>:[(<span class="hljs-string">&quot;极差&quot;</span>,peak_to_peak),(<span class="hljs-string">&quot;均值&quot;</span>,<span class="hljs-string">&quot;mean&quot;</span>)],<span class="hljs-string">&quot;data2&quot;</span>:[(<span class="hljs-string">&quot;均值&quot;</span>,<span class="hljs-string">&quot;mean&quot;</span>),(<span class="hljs-string">&quot;方差&quot;</span>,<span class="hljs-string">&quot;std&quot;</span>)]&#125;)<br></code></pre></td></tr></table></figure>
+<p><img src="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/QQ截图20220705191251.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="以没有行索引的形式返回聚合数据">以没有行索引的形式返回聚合数据</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">&gt;&gt;&gt;grouped = df.groupby([<span class="hljs-string">&quot;key1&quot;</span>,<span class="hljs-string">&quot;key2&quot;</span>],as_index=<span class="hljs-literal">False</span>)<br>&gt;&gt;&gt;grouped.agg(&#123;<span class="hljs-string">&quot;data1&quot;</span>:[(<span class="hljs-string">&quot;极差&quot;</span>,peak_to_peak),(<span class="hljs-string">&quot;均值&quot;</span>,<span class="hljs-string">&quot;mean&quot;</span>)],<span class="hljs-string">&quot;data2&quot;</span>:[(<span class="hljs-string">&quot;均值&quot;</span>,<span class="hljs-string">&quot;mean&quot;</span>),(<span class="hljs-string">&quot;方差&quot;</span>,<span class="hljs-string">&quot;std&quot;</span>)]&#125;)<br></code></pre></td></tr></table></figure>
+<p><img src="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/QQ截图20220705191251.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="apply用法">apply用法</h3>
+<h4 id="实例一用特定于分组的值填充缺失值">实例一：用特定于分组的值填充缺失值</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs python">states = [<span class="hljs-string">&quot;Ohio&quot;</span>,<span class="hljs-string">&quot;New York&quot;</span>,<span class="hljs-string">&quot;Vermont&quot;</span>,<span class="hljs-string">&quot;Florida&quot;</span>,<span class="hljs-string">&quot;Oregon&quot;</span>,<span class="hljs-string">&quot;Nevada&quot;</span>,<span class="hljs-string">&quot;Caliornia&quot;</span>,<span class="hljs-string">&quot;Idaho&quot;</span>] <br>group_key = [<span class="hljs-string">&quot;East&quot;</span>]*<span class="hljs-number">4</span>+[<span class="hljs-string">&quot;West&quot;</span>]*<span class="hljs-number">4</span> <span class="hljs-comment">#分组键</span><br>data = pd.Series(np.random.randn(<span class="hljs-number">8</span>),index=states) <span class="hljs-comment">#创建数据</span><br>data[[<span class="hljs-string">&quot;Vermont&quot;</span>,<span class="hljs-string">&quot;Nevada&quot;</span>,<span class="hljs-string">&quot;Idaho&quot;</span>]] = np.nan <span class="hljs-comment">#生成缺失值</span><br>grouped = data.groupby(group_key) <span class="hljs-comment">#分组</span><br>fill_mean = <span class="hljs-keyword">lambda</span> x:x.fillna(x.mean()) <span class="hljs-comment">#填充的函数</span><br>res = grouped.apply(fill_mean)<span class="hljs-comment">#分组填充缺失值（均值填充）</span><br>res<br>Ohio        -<span class="hljs-number">0.662863</span><br>New York    -<span class="hljs-number">0.062301</span><br>Vermont     -<span class="hljs-number">0.317830</span><br>Florida     -<span class="hljs-number">0.228326</span><br>Oregon      -<span class="hljs-number">1.421787</span><br>Nevada      -<span class="hljs-number">0.089019</span><br>Caliornia    <span class="hljs-number">1.243750</span><br>Idaho       -<span class="hljs-number">0.089019</span><br>dtype: float64<br>fill_values = &#123;<span class="hljs-string">&quot;East&quot;</span>:<span class="hljs-number">0.5</span>,<span class="hljs-string">&quot;West&quot;</span>:-<span class="hljs-number">1</span>&#125;<br>fill_func = <span class="hljs-keyword">lambda</span> x:x.fillna(fill_values[x.name])<span class="hljs-comment">#分组具有name属性</span><br>res = grouped.apply(fill_func)<span class="hljs-comment">#指定值填充</span><br>res<br>Ohio        -<span class="hljs-number">0.662863</span><br>New York    -<span class="hljs-number">0.062301</span><br>Vermont      <span class="hljs-number">0.500000</span><br>Florida     -<span class="hljs-number">0.228326</span><br>Oregon      -<span class="hljs-number">1.421787</span><br>Nevada      -<span class="hljs-number">1.000000</span><br>Caliornia    <span class="hljs-number">1.243750</span><br>Idaho       -<span class="hljs-number">1.000000</span><br>dtype: float64<br></code></pre></td></tr></table></figure>
+<h4 id="实例二分组加权平均数和相关系数">实例二：分组加权平均数和相关系数</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python">df = pd.DataFrame(&#123;<span class="hljs-string">&quot;category&quot;</span>:[<span class="hljs-string">&quot;a&quot;</span>,<span class="hljs-string">&quot;a&quot;</span>,<span class="hljs-string">&quot;a&quot;</span>,<span class="hljs-string">&quot;a&quot;</span>,<span class="hljs-string">&quot;b&quot;</span>,<span class="hljs-string">&quot;b&quot;</span>,<span class="hljs-string">&quot;b&quot;</span>,<span class="hljs-string">&quot;b&quot;</span>],<span class="hljs-string">&quot;data&quot;</span>:np.random.randn(<span class="hljs-number">8</span>),<span class="hljs-string">&quot;weights&quot;</span>:np.random.dirichlet(np.ones(<span class="hljs-number">8</span>),size=<span class="hljs-number">1</span>).flatten()&#125;)<br>df<br>	category	data	weights<br><span class="hljs-number">0</span>	a	-<span class="hljs-number">0.480924</span>	<span class="hljs-number">0.082778</span><br><span class="hljs-number">1</span>	a	<span class="hljs-number">0.503605</span>	<span class="hljs-number">0.200813</span><br><span class="hljs-number">2</span>	a	-<span class="hljs-number">0.436033</span>	<span class="hljs-number">0.047614</span><br><span class="hljs-number">3</span>	a	-<span class="hljs-number">1.309123</span>	<span class="hljs-number">0.013908</span><br><span class="hljs-number">4</span>	b	-<span class="hljs-number">0.344479</span>	<span class="hljs-number">0.005045</span><br><span class="hljs-number">5</span>	b	-<span class="hljs-number">0.030181</span>	<span class="hljs-number">0.341696</span><br><span class="hljs-number">6</span>	b	-<span class="hljs-number">0.194018</span>	<span class="hljs-number">0.022650</span><br><span class="hljs-number">7</span>	b	-<span class="hljs-number">0.487371</span>	<span class="hljs-number">0.285495</span><br>grouped = df.groupby(<span class="hljs-string">&quot;category&quot;</span>)<br>get_wavg = <span class="hljs-keyword">lambda</span> x:np.average(x[<span class="hljs-string">&quot;data&quot;</span>],weights=x[<span class="hljs-string">&quot;weights&quot;</span>])<br>grouped.apply(get_wavg)<br>category<br>a    <span class="hljs-number">0.064764</span><br>b   -<span class="hljs-number">0.237579</span><br>dtype: float64<br></code></pre></td></tr></table></figure>
+<h4 id="组级别的线性回归">组级别的线性回归</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> statsmodels.api <span class="hljs-keyword">as</span> sm<span class="hljs-comment">#计量经济学库</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">regression</span>(<span class="hljs-params">data,yvar,xvars</span>):<br>    Y = data[yvar]<br>    X = data[xvars]<br>    X[<span class="hljs-string">&quot;intercept&quot;</span>] = <span class="hljs-number">1</span><br>    res = sm.OLS(Y,X).fit()<br>    <span class="hljs-keyword">return</span> res.params<br>grouped = df_t.groupby(<span class="hljs-keyword">lambda</span> x:x.day)<br>grouped.apply(regression,<span class="hljs-number">0</span>,[<span class="hljs-number">1</span>])<br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Python/" class="category-chain-item">Python</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Python/pandas/" class="category-chain-item">pandas</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Python/">#Python</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Groupby机制</div>
+      <div>http://example.com/posts/42638.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>JangShuan Pang</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年7月5日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/24447.html" title="LATEX插图">
+                        <span class="hidden-mobile">LATEX插图</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="twikoo"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/twikoo/1.5.11/twikoo.all.min.js', function() {
+        var options = Object.assign(
+          {"envId":"comment-6gtfj2gy9797e301","region":"ap-shanghai","path":"window.location.pathname"},
+          {
+            el: '#twikoo',
+            path: 'window.location.pathname',
+            onCommentLoaded: function() {
+              var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+              Fluid.plugins.imageCaption(imgSelector);
+              Fluid.plugins.fancyBox(imgSelector);
+            }
+          }
+        )
+        twikoo.init(options)
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.1/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
