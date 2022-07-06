@@ -1,0 +1,772 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="JangShuan Pang">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="机器学习 特征工程            特征衍生方法汇总 批量自动化特征衍生  双变量特征衍生 四则运算特征衍生 该过程非常简单，就是单纯的选取两列进行四则运算，基本过程如下：  该过程并不复杂，实际代码执行过程也只需要单独索引出两列然后进行四则运算即可。一般来说，四则运算特征衍生的使用场景较为固定，主要有以下三个：  其一是用于创建业务补充字">
+<meta property="og:type" content="article">
+<meta property="og:title" content="双变量特征衍生">
+<meta property="og:url" content="http://example.com/posts/11354.html">
+<meta property="og:site_name" content="网站名称">
+<meta property="og:description" content="机器学习 特征工程            特征衍生方法汇总 批量自动化特征衍生  双变量特征衍生 四则运算特征衍生 该过程非常简单，就是单纯的选取两列进行四则运算，基本过程如下：  该过程并不复杂，实际代码执行过程也只需要单独索引出两列然后进行四则运算即可。一般来说，四则运算特征衍生的使用场景较为固定，主要有以下三个：  其一是用于创建业务补充字">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/gANubs8OwQ256Dd.png">
+<meta property="og:image" content="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/hZOarqcndsHDxlV.png">
+<meta property="og:image" content="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/BiH4LtVTOjkWQuI.png">
+<meta property="og:image" content="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/6YzMGo9uI1Dm8rc.png">
+<meta property="og:image" content="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/mE9hBtyaHpOIlvR.png">
+<meta property="og:image" content="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/Z1bgnjBui7VT4dI.png">
+<meta property="og:image" content="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/MKXbm2tpf1hFVRw.png">
+<meta property="article:published_time" content="2022-07-06T10:49:53.558Z">
+<meta property="article:modified_time" content="2022-07-06T10:57:34.906Z">
+<meta property="article:author" content="JangShuan Pang">
+<meta property="article:tag" content="machine learning">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/gANubs8OwQ256Dd.png">
+  
+  
+  
+  <title>双变量特征衍生 - 网站名称</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>P</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="双变量特征衍生"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-07-06 18:49" pubdate>
+          2022年7月6日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          11k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          89 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">双变量特征衍生</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <hr>
+<div class="note note-success">
+            <p>机器学习 特征工程</p>
+          </div>
+<h2 id="特征衍生方法汇总">特征衍生方法汇总</h2>
+<h3 id="批量自动化特征衍生">批量自动化特征衍生</h3>
+<p><img src="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/gANubs8OwQ256Dd.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="双变量特征衍生">双变量特征衍生</h4>
+<h5 id="四则运算特征衍生">四则运算特征衍生</h5>
+<p>该过程非常简单，就是单纯的选取两列进行四则运算，基本过程如下：</p>
+<p><img src="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/hZOarqcndsHDxlV.png" srcset="/img/loading.gif" lazyload></p>
+<p>该过程并不复杂，实际代码执行过程也只需要单独索引出两列然后进行四则运算即可。一般来说，四则运算特征衍生的使用场景较为固定，主要有以下三个：</p>
+<ul>
+<li>其一是用于创建业务补充字段：在某些数据集中，我们需要通过四则运算来创建具有明显业务含义的补充字段，例如在上述电信用户流失数据集中，我们可以通过将总消费金额除以用户入网时间，即可算出用户平均每月的消费金额，或者使用用户每月消费金额除以购买服务总数，则可算出每项服务的平均价格，这些字段有明确的业务含义，我们甚至可以将其视作原始字段;</li>
+<li>其二，往往在特征衍生的所有工作结束后，我们会就这一系列衍生出来的新字段进行四则运算特征衍生，作为数据信息的一种补充；</li>
+<li>其三，在某些极为特殊的字段创建过程中使用，例如竞赛中常用的黄金组合特征、流量平滑特征等，需要使用四则运算进行特征衍生。</li>
+</ul>
+<h5 id="交叉组合特征衍生">交叉组合特征衍生</h5>
+<p>所谓交叉组合特征衍生，指的是不同分类变量不同取值水平之间进行交叉组合，从而创建新字段的过程。例如此前我们创建的老年且经济不独立的标识字段，实际上就是是否是老年人字段（SeniorCitizen）和是否经济独立字段（Dependents）两个字段交叉组合衍生过程中的一个：</p>
+<p><img src="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/BiH4LtVTOjkWQuI.png" srcset="/img/loading.gif" lazyload></p>
+<p>不难看出，该计算流程并不复杂，需要注意的是，交叉组合后衍生的特征个数是参数交叉组合的特征的取值水平之积，因此交叉组合特征衍生一般只适用于取值水平较少的分类变量之间进行，若是分类变量或者取值水平较多的离散变量彼此之间进行交叉组合，则会导致衍生特征矩阵过于稀疏，从而无法为模型提供有效的训练信息。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">Binary_Cross_Combination</span>(<span class="hljs-params">colNames, features, OneHot=<span class="hljs-literal">True</span></span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    分类变量两两组合交叉衍生函数</span><br><span class="hljs-string">    </span><br><span class="hljs-string">    :param colNames: 参与交叉衍生的列名称</span><br><span class="hljs-string">    :param features: 原始数据集</span><br><span class="hljs-string">    :param OneHot: 是否进行独热编码</span><br><span class="hljs-string">    </span><br><span class="hljs-string">    :return：交叉衍生后的新特征和新列名称</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    colNames_new_lst = []<br>    features_lst = []<br>    <span class="hljs-keyword">for</span> index,value <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(colNames):<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(index+<span class="hljs-number">1</span>,<span class="hljs-built_in">len</span>(colNames)):<br>            name_temp = value+<span class="hljs-string">&quot;&amp;&quot;</span>+colNames[i]<br>            colNames_new_lst.append(name_temp)<br>            series_temp = pd.Series(features[value].astype(<span class="hljs-built_in">str</span>)+<span class="hljs-string">&quot;&amp;&quot;</span>+features[colNames[i]].astype(<span class="hljs-built_in">str</span>),name=name_temp)<br>            features_lst.append(series_temp)<br>    features_res = pd.concat(features_lst,axis=<span class="hljs-number">1</span>)<br>    <span class="hljs-keyword">if</span> OneHot==<span class="hljs-literal">True</span>:<br>        enc = preprocessing.OneHotEncoder()<br>        df_arr = enc.fit_transform(features_res).toarray()<br>        features_res = pd.DataFrame(df_arr,columns=cate_colName(enc,colNames_new_lst,drop=<span class="hljs-literal">None</span>))<br>    <span class="hljs-keyword">return</span> features_res,colNames_new_lst<br></code></pre></td></tr></table></figure>
+<p>需要注意的是对于类别数多的分类变量，交叉组合特征衍生产生的特征会增长很快。在操作前应该初步判断产生新特征的个数。</p>
+<h5 id="分组统计特征衍生">分组统计特征衍生</h5>
+<p>所谓分组统计，顾名思义，就是A特征根据B特征的不同取值进行分组统计，统计量可以是均值、方差等针对连续变量的统计指标，也可以是众数、分位数等针对离散变量的统计指标，例如我们可以计算不同入网时间用户的平均月消费金额、消费金额最大值、消费金额最小值等，基本过程如下：</p>
+<p><img src="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/6YzMGo9uI1Dm8rc.png" srcset="/img/loading.gif" lazyload></p>
+<p>同样，该过程也并不复杂，在实际执行分组统计特征衍生的过程中（假设是A特征根据B特征的不同取值进行分组统计），有以下几点需要注意：</p>
+<ul>
+<li><p>首先，一般来说A特征可以是离散变量也可以是连续变量，而B特征必须是离散变量，且最好是一些取值较多的离散变量（或者固定取值的连续变量），例如本数据集中的tenure字段，总共有73个取值。主要原因是如果B特征取值较少，则在衍生的特征矩阵中会出现大量的重复的行；</p></li>
+<li><p>其次，在实际计算A的分组统计量时，可以不局限于连续特征只用连续变量的统计量、离散特征只用离散的统计量，完全可以交叉使用，例如A是离散变量，我们也可以分组统计其均值、方差、偏度、峰度等，连续变量也可以统计众数、分位数等。很多时候，更多的信息组合有可能会带来更多的可能性；</p></li>
+<li><p>其三，有的时候分组统计还可以用于多表连接的场景，例如假设现在给出的数据集不是每个用户的汇总统计结果，而是每个用户在过去的一段时间内的行为记录，则我们可以根据用户ID对其进行分组统计汇总：</p></li>
+</ul>
+<p><img src="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/mE9hBtyaHpOIlvR.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li>其四，很多时候我们还会考虑进一步围绕特征A和分组统计结果进行再一次的四则运算特征衍生，例如用月度消费金额减去分组均值，则可以比较每一位用户与相同时间入网用户的消费平均水平的差异，围绕衍生特征再次进行衍生，我们将其称为统计演变特征，也是分组汇总衍生特征的重要应用场景：</li>
+</ul>
+<p><img src="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/Z1bgnjBui7VT4dI.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">Binary_Group_Statistics</span>(<span class="hljs-params">keyCol, </span><br><span class="hljs-params">                            features, </span><br><span class="hljs-params">                            col_num=<span class="hljs-literal">None</span>, </span><br><span class="hljs-params">                            col_cat=<span class="hljs-literal">None</span>, </span><br><span class="hljs-params">                            num_stat=[<span class="hljs-string">&#x27;mean&#x27;</span>, <span class="hljs-string">&#x27;var&#x27;</span>, <span class="hljs-string">&#x27;max&#x27;</span>, <span class="hljs-string">&#x27;min&#x27;</span>, <span class="hljs-string">&#x27;skew&#x27;</span>, <span class="hljs-string">&#x27;median&#x27;</span>], </span><br><span class="hljs-params">                            cat_stat=[<span class="hljs-string">&#x27;mean&#x27;</span>, <span class="hljs-string">&#x27;var&#x27;</span>, <span class="hljs-string">&#x27;max&#x27;</span>, <span class="hljs-string">&#x27;min&#x27;</span>, <span class="hljs-string">&#x27;median&#x27;</span>, <span class="hljs-string">&#x27;count&#x27;</span>, <span class="hljs-string">&#x27;nunique&#x27;</span>], </span><br><span class="hljs-params">                            quant=<span class="hljs-literal">True</span></span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    双变量分组统计特征衍生函数</span><br><span class="hljs-string">    </span><br><span class="hljs-string">    :param keyCol: 分组参考的关键变量</span><br><span class="hljs-string">    :param features: 原始数据集</span><br><span class="hljs-string">    :param col_num: 参与衍生的连续型变量</span><br><span class="hljs-string">    :param col_cat: 参与衍生的离散型变量</span><br><span class="hljs-string">    :param num_stat: 连续变量分组统计量</span><br><span class="hljs-string">    :param cat_num: 离散变量分组统计量  </span><br><span class="hljs-string">    :param quant: 是否计算分位数  </span><br><span class="hljs-string"></span><br><span class="hljs-string">    :return：交叉衍生后的新特征和新特征的名称</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    aggs = &#123;&#125;<br>    colName_new = []<br>    <span class="hljs-keyword">if</span> col_num != <span class="hljs-literal">None</span>:<br>        <span class="hljs-keyword">for</span> col_n <span class="hljs-keyword">in</span> col_num:<br>            aggs[col_n] = num_stat<br>            colName_new.extend([col_n+<span class="hljs-string">&quot;_&quot;</span>+keyCol+<span class="hljs-string">&quot;_&quot;</span>+i <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> num_stat])<br>        <span class="hljs-keyword">if</span> col_cat != <span class="hljs-literal">None</span>:<br>            <span class="hljs-keyword">for</span> col_c <span class="hljs-keyword">in</span> col_cat:<br>                aggs[col_c] = cat_stat<br>                colName_new.extend([col_c+<span class="hljs-string">&quot;_&quot;</span>+keyCol+<span class="hljs-string">&quot;_&quot;</span>+i <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> cat_stat])<br>            colName = col_num+col_cat<br>            features_new = features.groupby(keyCol).agg(aggs).reset_index()<br>            features_res = pd.merge(features,features_new,how=<span class="hljs-string">&quot;left&quot;</span>,on=keyCol)<br>            features_res.columns = [keyCol]+colName+colName_new<br>        <span class="hljs-keyword">else</span>:<br>            colName = col_num<br>            features_new = features.groupby(keyCol).agg(aggs).reset_index()<br>            features_res = pd.merge(features,features_new,how=<span class="hljs-string">&quot;left&quot;</span>,on=keyCol)<br>            features_res.columns = [keyCol]+colName+colName_new<br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-keyword">if</span> col_cat != <span class="hljs-literal">None</span>:<br>            <span class="hljs-keyword">for</span> col_c <span class="hljs-keyword">in</span> col_cat:<br>                aggs[col_c] = cat_stat<br>                colName_new.extend([col_c+<span class="hljs-string">&quot;_&quot;</span>+keyCol+<span class="hljs-string">&quot;_&quot;</span>+i <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> cat_stat])<br>            colName = col_cat<br>            features_new = features.groupby(keyCol).agg(aggs).reset_index()<br>            features_res = pd.merge(features,features_new,how=<span class="hljs-string">&quot;left&quot;</span>,on=keyCol)<br>            features_res.columns = [keyCol]+colName+colName_new<br>    <span class="hljs-keyword">if</span> quant == <span class="hljs-literal">True</span>:<br>        aggs_temp = &#123;&#125;<br>        colName_new_temp = []<br>        <span class="hljs-keyword">def</span> <span class="hljs-title function_">q1</span>(<span class="hljs-params">x</span>):<br>            <span class="hljs-string">&quot;&quot;&quot;下四分位数&quot;&quot;&quot;</span><br>            <span class="hljs-keyword">return</span> x.quantile(<span class="hljs-number">0.25</span>)<br>        <span class="hljs-keyword">def</span> <span class="hljs-title function_">q2</span>(<span class="hljs-params">x</span>):<br>            <span class="hljs-string">&quot;&quot;&quot;上四分位数&quot;&quot;&quot;</span><br>            <span class="hljs-keyword">return</span> x.quantile(<span class="hljs-number">0.75</span>)<br>        <span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> colName:<br>            aggs_temp[col] = [q1,q2]<br>            colName_new_temp.extend([col+<span class="hljs-string">&quot;_&quot;</span>+keyCol+<span class="hljs-string">&quot;_&quot;</span>+i <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> [<span class="hljs-string">&quot;q1&quot;</span>,<span class="hljs-string">&quot;q2&quot;</span>]])<br>        features_new = features.groupby(keyCol).agg(aggs_temp).reset_index()<br>        features_quan = pd.merge(features_res,features_new,how=<span class="hljs-string">&quot;left&quot;</span>,on=keyCol)<br>        features_quan.columns = [keyCol]+colName+colName_new+colName_new_temp<br>        features_res = features_quan<br>    <span class="hljs-keyword">return</span> features_res,features_res.columns.tolist()<br></code></pre></td></tr></table></figure>
+<h5 id="多项式特征衍生">多项式特征衍生</h5>
+<p>双变量的多项式衍生会比单变量多项式衍生更有效果，该过程并不复杂，只是在单变量多项式衍生基础上增加了交叉项的计算，例如X1和X2都是某连续变量，在进行双变量二阶多项式衍生时计算过程如下：</p>
+<p><img src="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/MKXbm2tpf1hFVRw.png" srcset="/img/loading.gif" lazyload></p>
+<p>更高阶的多项式衍生过程也依此类推。在实际使用过程中，有以下几点注意事项：</p>
+<ul>
+<li><p>一般来说双变量多项式衍生只适用于两个连续变量之间，一个连续变量一个离散变量或者两个离散变量进行多项式衍生意义不大（除非类似tenure字段，离散字段带有非常多不同的取值）；</p></li>
+<li><p>在选取特征进行多项式衍生的过程中，往往我们不会随意组合连续变量来进行多项式衍生，而是只针对我们判断非常重要的特征来进行多项式衍生。就这点而言，多项式衍生和四则运算衍生非常类似，其使用场景背后的基本思路也完全一致：强化重要特征的表现形式；</p></li>
+<li><p>关于衍生多少阶，一般来说伴随着多项式阶数的增加，各列数值也会呈现指数级递增（或递减），因此往往我们只会衍生3阶左右，极少数情况会衍生5-10阶。而伴随着多项式阶数的增加，也需要配合一些手段来消除数值绝对值爆炸或者衰减所造成的影响，例如对数据进行归一化处理等；</p></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">Binary_PolynomialFeatures</span>(<span class="hljs-params">colNames, degree,features</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    连续变量两变量多项式衍生函数</span><br><span class="hljs-string">    </span><br><span class="hljs-string">    :param colNames: 参与交叉衍生的列名称</span><br><span class="hljs-string">    :param degree: 多项式最高阶</span><br><span class="hljs-string">    :param features: 原始数据集</span><br><span class="hljs-string">    </span><br><span class="hljs-string">    :return：交叉衍生后的新特征和新列名称</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    features_lst = []<br>    colName_new = []<br>    <span class="hljs-keyword">for</span> index,value <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(colNames):<br>        <span class="hljs-keyword">for</span> v <span class="hljs-keyword">in</span> colNames[index+<span class="hljs-number">1</span>:]:<br>            colName_temp = [value,v]<br>            features_temp = preprocessing.PolynomialFeatures(degree=degree,include_bias=<span class="hljs-literal">False</span>).fit_transform(features[colName_temp])<br>            features_lst.append(pd.DataFrame(features_temp[:,degree-<span class="hljs-number">1</span>:]))<br>            <span class="hljs-keyword">for</span> deg <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">2</span>,degree+<span class="hljs-number">1</span>):<br>                <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(deg+<span class="hljs-number">1</span>):<br>                    colName_new.append(colName_temp[<span class="hljs-number">0</span>]+<span class="hljs-string">&quot;**&quot;</span>+<span class="hljs-built_in">str</span>(deg-i)+<span class="hljs-string">&quot; &quot;</span>+colName_temp[<span class="hljs-number">1</span>]+<span class="hljs-string">&quot;**&quot;</span>+<span class="hljs-built_in">str</span>(i))<br>    features_new = pd.concat(features_lst,axis=<span class="hljs-number">1</span>)<br>    features_new.columns = colName_new<br>    <span class="hljs-keyword">return</span> features_new,features_new.columns.tolist()<br></code></pre></td></tr></table></figure>
+<h5 id="统计演变特征">统计演变特征</h5>
+<ul>
+<li>二阶特征衍生</li>
+</ul>
+<p>一种很自然的联想，是当我们已经完成了一些特征衍生后，还会考虑以衍生特征为基础，进一步进行特征衍生，这也就是所谓的二阶特征衍生（注意区分二阶多项式衍生）。当然这个过程可以无限重复，这也是此前讨论为何会出现无限特征的根本原因之一。不过，在大多数情况下，二阶甚至是更高阶的特征衍生（以下简称高阶特征衍生）往往伴随着严重的信息衰减，大多数高阶衍生出来的特征其本身的有效性也将急剧下降，外加高阶特征衍生是在已有的大量衍生出来的一阶特征基础上再进行衍生，其计算过程往往需要消耗巨大的计算量，外加需要从一系列高阶衍生特征中挑选出极个别有用的特征也较为繁琐，因此，高阶衍生往往性价比较低，除非特殊情况，否则并不建议在广泛特征基础上进行大量高阶特征衍生的尝试。</p>
+<ul>
+<li>统计演变特征</li>
+</ul>
+<p>当然，尽管并不建议手动进行尝试，但在长期的实践过程中，人们还是总结出某些高阶衍生特征（主要是二阶衍生特征）在很多情况下都能起到很好的效果。需要注意的是，这里的着重指的是一些特征，而不是特征衍生的策略。在这些普遍有效的高阶特征中，最著名的就是所谓的统计演变特征，这些特征由原始特征和分组统计特征、或分组统计特征彼此之间交叉衍生而来，在很多算法竞赛和企业应用中，都被证明了有较高的尝试价值。</p>
+<h6 id="流量平滑特征">流量平滑特征</h6>
+<p>该特征通过分组键除以分组汇总均值（中位数）后的特征计算而来。当然因为是进行除法运算，为了避免分母为零的情况，我们可以在分母位上加上一个很小的数。</p>
+<h6 id="黄金组合特征">黄金组合特征</h6>
+<p>所谓黄金组合特征，就是简单的利用分组键特征减去分组汇总均值后的特征计算得出。</p>
+<h6 id="组内归一化特征">组内归一化特征</h6>
+<p>所谓组内归一化特征，指的是用分组键特征减去分组汇总均值后的特征，再除以分组汇总标准差后的特征，其计算过程非常类似于归一化过程，即某列数据减去该列的均值再除以该列的标准差，这也是组内归一化名称的由来。</p>
+<h6 id="gap特征">Gap特征</h6>
+<p>Gap特征通过分组汇总后的上四分位数-下四分位数计算得出。</p>
+<h6 id="数据倾斜">数据倾斜</h6>
+<p>我们还可以通过中位数和均值的比较来计算组内的数据倾斜情况：当均值大于中位数时，数据呈现正倾斜，均值小于中位数时，数据正弦负倾斜。当然衡量倾斜的方法有两种，其一是计算差值，其二则是计算比值。</p>
+<h6 id="变异系数">变异系数</h6>
+<p>变异系数是通过分组统计的标准差除以均值，变异系数计算的是离中趋势，变异系数越大、说明数据离散程度越高。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">Group_Statistics_Extension</span>(<span class="hljs-params">colNames, keyCol, features</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    双变量分组统计二阶特征衍生函数</span><br><span class="hljs-string">    </span><br><span class="hljs-string">    :param colNames: 参与衍生的特征</span><br><span class="hljs-string">    :param keyCol: 分组参考的关键变量</span><br><span class="hljs-string">    :param features: 原始数据集</span><br><span class="hljs-string">    </span><br><span class="hljs-string">    :return：交叉衍生后的新特征和新列名称</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <br>    <span class="hljs-comment"># 定义四分位计算函数</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">q1</span>(<span class="hljs-params">x</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        下四分位数</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-keyword">return</span> x.quantile(<span class="hljs-number">0.25</span>)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">q2</span>(<span class="hljs-params">x</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        上四分位数</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-keyword">return</span> x.quantile(<span class="hljs-number">0.75</span>)   <br>    <br>    <span class="hljs-comment"># 一阶特征衍生</span><br>    <span class="hljs-comment"># 先定义用于生成列名称的aggs</span><br>    aggs = &#123;&#125;    <br>    <span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> colNames:<br>        aggs[col] = [<span class="hljs-string">&#x27;mean&#x27;</span>, <span class="hljs-string">&#x27;var&#x27;</span>, <span class="hljs-string">&#x27;median&#x27;</span>, <span class="hljs-string">&#x27;q1&#x27;</span>, <span class="hljs-string">&#x27;q2&#x27;</span>]       <br>    cols = [keyCol]<br>    <span class="hljs-keyword">for</span> key <span class="hljs-keyword">in</span> aggs.keys():<br>        cols.extend([key+<span class="hljs-string">&#x27;_&#x27;</span>+keyCol+<span class="hljs-string">&#x27;_&#x27;</span>+stat <span class="hljs-keyword">for</span> stat <span class="hljs-keyword">in</span> aggs[key]])<br><br>    <span class="hljs-comment"># 再定义用于进行分组汇总的aggs</span><br>    aggs = &#123;&#125;   <br>    <span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> colNames:<br>        aggs[col] = [<span class="hljs-string">&#x27;mean&#x27;</span>, <span class="hljs-string">&#x27;var&#x27;</span>, <span class="hljs-string">&#x27;median&#x27;</span>, q1, q2] <br>           <br>    features_new = features[colNames+[keyCol]].groupby(keyCol).agg(aggs).reset_index()<br>    features_new.columns = cols<br>             <br>    features_new = pd.merge(features[keyCol], features_new, how=<span class="hljs-string">&#x27;left&#x27;</span>,on=keyCol)<br>    features_new.loc[:, ~features_new.columns.duplicated()]<br>    colNames_new = cols<br>    colNames_new.remove(keyCol)<br>    col1 = colNames_new.copy()<br>    <br>    <span class="hljs-comment"># 二阶特征衍生</span><br>    <span class="hljs-comment"># 流量平滑特征</span><br>    <span class="hljs-keyword">for</span> col_temp <span class="hljs-keyword">in</span> colNames:<br>        col = col_temp+<span class="hljs-string">&#x27;_&#x27;</span>+keyCol+<span class="hljs-string">&#x27;_&#x27;</span>+<span class="hljs-string">&#x27;mean&#x27;</span><br>        features_new[col_temp+<span class="hljs-string">&#x27;_dive1_&#x27;</span>+col] = features_new[keyCol] / (features_new[col] + <span class="hljs-number">1e-5</span>)<br>        colNames_new.append(col_temp+<span class="hljs-string">&#x27;_dive1_&#x27;</span>+col)<br>        col = col_temp+<span class="hljs-string">&#x27;_&#x27;</span>+keyCol+<span class="hljs-string">&#x27;_&#x27;</span>+<span class="hljs-string">&#x27;median&#x27;</span><br>        features_new[col_temp+<span class="hljs-string">&#x27;_dive2_&#x27;</span>+col] = features_new[keyCol] / (features_new[col] + <span class="hljs-number">1e-5</span>)<br>        colNames_new.append(col_temp+<span class="hljs-string">&#x27;_dive2_&#x27;</span>+col)<br>        <br>    <span class="hljs-comment"># 黄金组合特征</span><br>    <span class="hljs-keyword">for</span> col_temp <span class="hljs-keyword">in</span> colNames:<br>        col = col_temp+<span class="hljs-string">&#x27;_&#x27;</span>+keyCol+<span class="hljs-string">&#x27;_&#x27;</span>+<span class="hljs-string">&#x27;mean&#x27;</span><br>        features_new[col_temp+<span class="hljs-string">&#x27;_minus1_&#x27;</span>+col] = features_new[keyCol] - features_new[col]<br>        colNames_new.append(col_temp+<span class="hljs-string">&#x27;_minus1_&#x27;</span>+col)<br>        col = col_temp+<span class="hljs-string">&#x27;_&#x27;</span>+keyCol+<span class="hljs-string">&#x27;_&#x27;</span>+<span class="hljs-string">&#x27;median&#x27;</span><br>        features_new[col_temp+<span class="hljs-string">&#x27;_minus2_&#x27;</span>+col] = features_new[keyCol] - features_new[col] <br>        colNames_new.append(col_temp+<span class="hljs-string">&#x27;_minus2_&#x27;</span>+col)<br>        <br>    <span class="hljs-comment"># 组内归一化特征</span><br>    <span class="hljs-keyword">for</span> col_temp <span class="hljs-keyword">in</span> colNames:<br>        col_mean = col_temp+<span class="hljs-string">&#x27;_&#x27;</span>+keyCol+<span class="hljs-string">&#x27;_&#x27;</span>+<span class="hljs-string">&#x27;mean&#x27;</span><br>        col_var = col_temp+<span class="hljs-string">&#x27;_&#x27;</span>+keyCol+<span class="hljs-string">&#x27;_&#x27;</span>+<span class="hljs-string">&#x27;var&#x27;</span><br>        features_new[col_temp+<span class="hljs-string">&#x27;_norm_&#x27;</span>+keyCol] = (features_new[keyCol] - features_new[col_mean]) / (np.sqrt(features_new[col_var]) + <span class="hljs-number">1e-5</span>)      <br>        colNames_new.append(col_temp+<span class="hljs-string">&#x27;_norm_&#x27;</span>+keyCol)<br>    <br>    <span class="hljs-comment"># Gap特征</span><br>    <span class="hljs-keyword">for</span> col_temp <span class="hljs-keyword">in</span> colNames:<br>        col_q1 = col_temp+<span class="hljs-string">&#x27;_&#x27;</span>+keyCol+<span class="hljs-string">&#x27;_&#x27;</span>+<span class="hljs-string">&#x27;q1&#x27;</span><br>        col_q2 = col_temp+<span class="hljs-string">&#x27;_&#x27;</span>+keyCol+<span class="hljs-string">&#x27;_&#x27;</span>+<span class="hljs-string">&#x27;q2&#x27;</span><br>        features_new[col_temp+<span class="hljs-string">&#x27;_gap_&#x27;</span>+keyCol] = features_new[col_q2] - features_new[col_q1]  <br>        colNames_new.append(col_temp+<span class="hljs-string">&#x27;_gap_&#x27;</span>+keyCol)<br>        <br>    <span class="hljs-comment"># 数据倾斜特征</span><br>    <span class="hljs-keyword">for</span> col_temp <span class="hljs-keyword">in</span> colNames:<br>        col_mean = col_temp+<span class="hljs-string">&#x27;_&#x27;</span>+keyCol+<span class="hljs-string">&#x27;_&#x27;</span>+<span class="hljs-string">&#x27;mean&#x27;</span><br>        col_median = col_temp+<span class="hljs-string">&#x27;_&#x27;</span>+keyCol+<span class="hljs-string">&#x27;_&#x27;</span>+<span class="hljs-string">&#x27;median&#x27;</span><br>        features_new[col_temp+<span class="hljs-string">&#x27;_mag1_&#x27;</span>+keyCol] = features_new[col_median] - features_new[col_mean]    <br>        colNames_new.append(col_temp+<span class="hljs-string">&#x27;_mag1_&#x27;</span>+keyCol)<br>        features_new[col_temp+<span class="hljs-string">&#x27;_mag2_&#x27;</span>+keyCol] = features_new[col_median] / (features_new[col_mean] + <span class="hljs-number">1e-5</span>)<br>        colNames_new.append(col_temp+<span class="hljs-string">&#x27;_mag2_&#x27;</span>+keyCol)<br>        <br>    <span class="hljs-comment"># 变异系数</span><br>    <span class="hljs-keyword">for</span> col_temp <span class="hljs-keyword">in</span> colNames:<br>        col_mean = col_temp+<span class="hljs-string">&#x27;_&#x27;</span>+keyCol+<span class="hljs-string">&#x27;_&#x27;</span>+<span class="hljs-string">&#x27;mean&#x27;</span><br>        col_var = col_temp+<span class="hljs-string">&#x27;_&#x27;</span>+keyCol+<span class="hljs-string">&#x27;_&#x27;</span>+<span class="hljs-string">&#x27;var&#x27;</span><br>        features_new[col_temp+<span class="hljs-string">&#x27;_cv_&#x27;</span>+keyCol] = np.sqrt(features_new[col_var]) / (features_new[col_mean] + <span class="hljs-number">1e-5</span>)<br>        colNames_new.append(col_temp+<span class="hljs-string">&#x27;_cv_&#x27;</span>+keyCol)<br><br>    features_new.drop([keyCol], axis=<span class="hljs-number">1</span>, inplace=<span class="hljs-literal">True</span>)<br>    features_new.drop(col1, axis=<span class="hljs-number">1</span>, inplace=<span class="hljs-literal">True</span>)<br>    colNames_new = <span class="hljs-built_in">list</span>(features_new.columns)<br>    <br>    <span class="hljs-keyword">return</span> features_new, colNames_new<br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/machine-learning/" class="category-chain-item">machine learning</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/machine-learning/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/" class="category-chain-item">特征工程</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/machine-learning/">#machine learning</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>双变量特征衍生</div>
+      <div>http://example.com/posts/11354.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>JangShuan Pang</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年7月6日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/36920.html" title="单变量特征衍生">
+                        <span class="hidden-mobile">单变量特征衍生</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div id="twikoo"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/twikoo/1.5.11/twikoo.all.min.js', function() {
+        var options = Object.assign(
+          {"envId":"comment-6gtfj2gy9797e301","region":"ap-shanghai","path":"window.location.pathname"},
+          {
+            el: '#twikoo',
+            path: 'window.location.pathname',
+            onCommentLoaded: function() {
+              var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+              Fluid.plugins.imageCaption(imgSelector);
+              Fluid.plugins.fancyBox(imgSelector);
+            }
+          }
+        )
+        twikoo.init(options)
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.1/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
