@@ -16,27 +16,22 @@
   <meta name="author" content="JangShuan Pang">
   <meta name="keywords" content="">
   
-    <meta name="description" content="机器学习 特征工程            独立性检验 独立性检验原理 在某些实际问题中常常会遇到两个指标，需要分析两个指标\(X,Y\)之间的相互依赖关系。假设\(X\)有\(r\)个不同可能取值\(A_i,i&#x3D;1,2,\dots,r\)，\(Y\)有\(s\)个不同可能取值\(B_j,j&#x3D;1,2,\dots,s\)。则属于\(A_i\)和\(B_j\)的频数">
+    <meta name="description" content="机器学习 特征工程            假设检验 假设检验是统计推断的一个重要内容，它利用样本信息对总体的某种假设进行检验。假设检验可分为参数假设检验和非参数假设检验，对总体分布中未知参数的假设检验称为参数假设检验，对总体分布函数形式或者总体分布性质的假设检验称为非参数假设检验。 假设检验的基本思想 想办法构造出在某种假设成立的条件下的一个小概率事件，看此">
 <meta property="og:type" content="article">
-<meta property="og:title" content="特征筛选方法(独立性检验)">
-<meta property="og:url" content="http://example.com/posts/48705.html">
+<meta property="og:title" content="特征筛选方法(假设检验)">
+<meta property="og:url" content="http://example.com/posts/31595.html">
 <meta property="og:site_name" content="网站名称">
-<meta property="og:description" content="机器学习 特征工程            独立性检验 独立性检验原理 在某些实际问题中常常会遇到两个指标，需要分析两个指标\(X,Y\)之间的相互依赖关系。假设\(X\)有\(r\)个不同可能取值\(A_i,i&#x3D;1,2,\dots,r\)，\(Y\)有\(s\)个不同可能取值\(B_j,j&#x3D;1,2,\dots,s\)。则属于\(A_i\)和\(B_j\)的频数">
+<meta property="og:description" content="机器学习 特征工程            假设检验 假设检验是统计推断的一个重要内容，它利用样本信息对总体的某种假设进行检验。假设检验可分为参数假设检验和非参数假设检验，对总体分布中未知参数的假设检验称为参数假设检验，对总体分布函数形式或者总体分布性质的假设检验称为非参数假设检验。 假设检验的基本思想 想办法构造出在某种假设成立的条件下的一个小概率事件，看此">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/QQ%E6%88%AA%E5%9B%BE20220711194807.png">
-<meta property="og:image" content="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/QQ%E6%88%AA%E5%9B%BE20220711194834.png">
-<meta property="og:image" content="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/QQ%E6%88%AA%E5%9B%BE20220711202002.png">
-<meta property="og:image" content="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/QQ%E6%88%AA%E5%9B%BE20220711202106.png">
-<meta property="article:published_time" content="2022-07-12T07:12:19.237Z">
-<meta property="article:modified_time" content="2022-07-12T11:16:21.263Z">
+<meta property="article:published_time" content="2022-07-12T11:16:49.261Z">
+<meta property="article:modified_time" content="2022-07-12T11:17:58.164Z">
 <meta property="article:author" content="JangShuan Pang">
 <meta property="article:tag" content="machine learning">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/QQ%E6%88%AA%E5%9B%BE20220711194807.png">
   
   
   
-  <title>特征筛选方法(独立性检验) - 网站名称</title>
+  <title>特征筛选方法(假设检验) - 网站名称</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -213,7 +208,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="特征筛选方法(独立性检验)"></span>
+            <span id="subtitle" data-typed-text="特征筛选方法(假设检验)"></span>
           
         </div>
 
@@ -224,8 +219,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-07-12 15:12" pubdate>
-          2022年7月12日 下午
+        <time datetime="2022-07-12 19:16" pubdate>
+          2022年7月12日 晚上
         </time>
       </span>
     
@@ -236,7 +231,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.1k 字
+          1.4k 字
         
       </span>
     
@@ -247,7 +242,7 @@
         
         
         
-          18 分钟
+          12 分钟
         
       </span>
     
@@ -285,7 +280,7 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">特征筛选方法(独立性检验)</h1>
+            <h1 style="display: none">特征筛选方法(假设检验)</h1>
             
             
               <div class="markdown-body">
@@ -294,47 +289,74 @@
 <div class="note note-success">
             <p>机器学习 特征工程</p>
           </div>
-<h2 id="独立性检验">独立性检验</h2>
-<h3 id="独立性检验原理">独立性检验原理</h3>
-<p>在某些实际问题中常常会遇到两个指标，需要分析两个指标<span class="math inline">\(X,Y\)</span>之间的相互依赖关系。假设<span class="math inline">\(X\)</span>有<span class="math inline">\(r\)</span>个不同可能取值<span class="math inline">\(A_i,i=1,2,\dots,r\)</span>，<span class="math inline">\(Y\)</span>有<span class="math inline">\(s\)</span>个不同可能取值<span class="math inline">\(B_j,j=1,2,\dots,s\)</span>。则属于<span class="math inline">\(A_i\)</span>和<span class="math inline">\(B_j\)</span>的频数记为<span class="math inline">\(n_{ij},(i=1,2,\dots,r,j=1,2,\dots,s)\)</span>，形成如下列联表。</p>
-<p><img src="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/QQ%E6%88%AA%E5%9B%BE20220711194807.png" srcset="/img/loading.gif" lazyload></p>
-<p>类似地，对应于上表的多项概率分布如下表所示，其中<span class="math inline">\(p_{ij}\)</span>表示同时属于<span class="math inline">\(A_i\)</span>和<span class="math inline">\(B_j\)</span>类的概率，并且边缘分布律为<span class="math inline">\(p_{.j}\)</span>和<span class="math inline">\(p_{i.}\)</span></p>
-<p><img src="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/QQ%E6%88%AA%E5%9B%BE20220711194834.png" srcset="/img/loading.gif" lazyload></p>
-<h4 id="问题描述">问题描述</h4>
-<p>假设<span class="math inline">\((x_i,y_i)(i=1,2,\dots,n)\)</span>是总体<span class="math inline">\((X,Y)\)</span>的样本测试值，将<span class="math inline">\(X\)</span>的可能取值分为<span class="math inline">\(r\)</span>个互不相交的类<span class="math inline">\(A_1,A_2,\dots,A_r\)</span>，<span class="math inline">\(Y\)</span>的可能取值分为<span class="math inline">\(s\)</span>个互不相交的类<span class="math inline">\(B_1,B_2,\dots,B_s\)</span>，欲检验： <span class="math display">\[
-H_0:X\text{与}Y\text{独立}，H_1:X\text{与}Y\text{不独立} \iff
-H_0:p_{ij}=p_{i\cdot}p_{\cdot, j}\quad\forall i,j,H_1:p_{ij}\neq
-p_{i\cdot}p_{\cdot j }\quad \text{对某个}(i,j)
-\]</span></p>
-<h4 id="chi2检验统计量及拒绝域"><span class="math inline">\(\chi^{2}\)</span>检验统计量及拒绝域</h4>
-<p>针对假设（1），若<span class="math inline">\(H_0\)</span>成立，则对所有的<span class="math inline">\((i,j)\)</span>，实际频数<span class="math inline">\(n_{ij}\)</span>与理论频数<span class="math inline">\(np_{ij}\)</span>的差异应该很小。故构造检验统计量
+<h1 id="假设检验">假设检验</h1>
+<p>假设检验是统计推断的一个重要内容，它利用样本信息对总体的某种假设进行检验。假设检验可分为参数假设检验和非参数假设检验，对总体分布中未知参数的假设检验称为参数假设检验，对总体分布函数形式或者总体分布性质的假设检验称为非参数假设检验。</p>
+<h2 id="假设检验的基本思想">假设检验的基本思想</h2>
+<p>想办法构造出在某种假设成立的条件下的一个小概率事件，看此小概率事件在一次抽样试验中是否出现，由此作出统计推断。</p>
+<h2 id="假设检验的主要步骤">假设检验的主要步骤</h2>
+<ul>
+<li>设立统计假设</li>
+</ul>
+<p>统计假设是关于总体状态的一种陈述，一般包含两个假设，原假设<span class="math inline">\(H_{0}\)</span>和备择假设<span class="math inline">\(H_1\)</span>.从形式上看原假设和备择假设可以互换。但是通常将不易加以否定的假设作为原假设，与之互斥的假设就是备择假设。</p>
+<ul>
+<li>选择检验统计量</li>
+</ul>
+<p>对原假设进行判断总是通过一个统计量<span class="math inline">\(W=W(X_1,X_2,\cdots,X_n)\)</span>来完成的，该统计量称为检验统计量.还需要确定在原假设成立的条件下统计量<span class="math inline">\(W\)</span>的精确分布或者极限分布,以便能根据显著性水平<span class="math inline">\(\alpha\)</span>来确定<span class="math inline">\(H_0\)</span>的拒绝域。</p>
+<ul>
+<li>确定拒绝域形式和拒绝域</li>
+</ul>
+<p>通常由假设检验<span class="math inline">\(H_1\)</span>来确定拒绝域形式。如果<span class="math inline">\(H_1:\mu \ne \mu_0\)</span>表示样本均值<span class="math inline">\(\mu\)</span>和<span class="math inline">\(\mu_0\)</span>有显著性差异，则拒绝域形式为<span class="math inline">\(\mathscr{F}_0=\{(x_1,x_2,\cdots,x_n):\vert
+\overline{X}-\mu_0\vert&gt;c\}\)</span>，称为双侧假设检验问题。又如<span class="math inline">\(H_1:\mu&gt;\mu_0\)</span>，则选择拒绝域<span class="math inline">\(\mathscr{F}_0=\{(x_1,x_2,\cdots,x_n):\overline{X}-\mu_0&gt;c\}\)</span>,称为单侧假设检验问题。</p>
+<p>由显著性水平<span class="math inline">\(\alpha\)</span>,拒绝域<span class="math inline">\(\mathscr{F}_0\)</span>的形式，检验统计量及分布和
 <span class="math display">\[
-\chi^{2} =
-\sum\limits_{j=1}^{s}\sum\limits_{i=1}^{r}\frac{(n_{ij}-np_{ij})^{2}}{np_{ij}}
-\]</span> 由于一般情况下<span class="math inline">\(p_{ij}\)</span>未知，可用<span class="math inline">\(p_{ij}\)</span>的最大似然估计<span class="math inline">\(\hat{p}_{ij}\)</span>代替，在<span class="math inline">\(H_0\)</span>成立的条件下，可退证 <span class="math display">\[
-\hat{p}_{ij} = \hat{p}_{i\cdot}\cdot\hat{p}_{\cdot
-j}=\frac{n_{i\cdot}\cdot n_{\cdot j}}{n^2},\forall i,j
-\]</span> 式（2）可化简为 <span class="math display">\[
-\chi^{2} =
-\sum\limits_{j=1}^{s}\sum\limits_{i=1}^{r}\frac{(n_{ij}-np_{ij})^{2}}{np_{ij}}=n\sum\limits_{j=1}^{s}\sum\limits_{i=1}^{r}\frac{n_{ij}^2}{n_{i\cdot}n_{\cdot
-j}}-n
-\]</span> 可以证明，在<span class="math inline">\(H_0\)</span>成立下，<span class="math inline">\(\chi^2 \sim
-\chi^2((r-1)(s-1))\)</span>，且拒绝域为 <span class="math display">\[
-\mathscr{F}_0 = \{\chi^2&gt;\chi^2_{1-\alpha}((r-1)(s-1))\}
-\]</span></p>
-<h3 id="独立性检验python实现">独立性检验Python实现</h3>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">&gt;&gt;&gt;X = X_train_OE[<span class="hljs-string">&quot;Contract&quot;</span>] <span class="hljs-comment">#某数据集的一列</span><br>&gt;&gt;&gt;y = y_train <span class="hljs-comment">#某数据的标签列</span><br>&gt;&gt;&gt;df_crosstab = pd.crosstab(X,y) <span class="hljs-comment">#创建联合表</span><br></code></pre></td></tr></table></figure>
-<p><img src="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/QQ%E6%88%AA%E5%9B%BE20220711202002.png" srcset="/img/loading.gif" lazyload></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> scipy <span class="hljs-keyword">import</span> stats<br>stats.chi2_contingency(df_crosstab) <span class="hljs-comment">#卡方检验</span><br></code></pre></td></tr></table></figure>
-<p><img src="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/QQ%E6%88%AA%E5%9B%BE20220711202106.png" srcset="/img/loading.gif" lazyload></p>
-<p>chi2_contingency函数返回了四个结果，分别是卡方值、显著性水平、自由度以及期望频数表。其中<span class="math inline">\(\alpha\)</span>显著性水平为<span class="math inline">\(P\{(X_1,X_2,\dots,X_n)\in \mathscr{F}_0\vert
-H_0\text{成立}\}\le
-\alpha\)</span>.这就说明第一个值越大，第二个值越小，则两个变量越不独立，就越相关。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> scipy<br>scipy.special.chdtrc(<span class="hljs-number">2</span>, <span class="hljs-number">872.3694073422871</span>)<span class="hljs-comment">#第一个参数为自由度，第二个参数为卡方值。</span><br></code></pre></td></tr></table></figure>
-<p>可以根据以上计算显著性水平。</p>
-<h3 id="独立性检验机器学习应用特征筛选">独立性检验机器学习应用（特征筛选）</h3>
-<p>在机器学习领域，卡方检验主要用于海量特征衍生后的特征筛选。主要是离散变量与离散标签之间的独立性（相关性）。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">SelectName_P</span>(<span class="hljs-params">P=<span class="hljs-number">0.01</span>,KB</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    根据显著性水平筛选特征 </span><br><span class="hljs-string">    :param P :显著性水平</span><br><span class="hljs-string">    :param KB:已经训练好的评分函数为Chi2的SelectKBest评估器</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    colNames = []<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(KB.feature_names_in_,KB.pvalues_):<br>        <span class="hljs-keyword">if</span> i[<span class="hljs-number">1</span>] &lt;= P:<br>            colNames.append(i[<span class="hljs-number">0</span>])<br>    <span class="hljs-keyword">return</span> colNames<br></code></pre></td></tr></table></figure>
+P\{(X_1,X_2,\cdots,X_n)\in\mathscr{F}_0\vert H_0\text{成立}\}\le \alpha
+\]</span> 可确定待定常数c，这就确定了拒绝域<span class="math inline">\(\mathscr{F}_0\)</span></p>
+<ul>
+<li>作出判断和决策</li>
+</ul>
+<p>根据抽样信息，计算统计量样本值<span class="math inline">\(w=W(x_1,x_2,\cdots,x_n)\)</span>.若<span class="math inline">\((x_1,x_2,\cdots,x_n)\in
+\mathscr{F}_0\)</span>，则拒绝<span class="math inline">\(H_0\)</span>，接受<span class="math inline">\(H_1\)</span></p>
+<h3 id="假设检验的两类错误">假设检验的两类错误</h3>
+<p>由于抽样的随机性和小概率原理，假设检验所作出的判断可能与事实不符，出现推断错误。将把拒绝<span class="math inline">\(H_0\)</span>所犯的错误称为弃真错误，把接受<span class="math inline">\(H_0\)</span>所犯的错误称为纳伪错误。如下表所示</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th></th>
+<th>真实情况</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td></td>
+<td><span class="math inline">\(H_0\)</span>成立</td>
+<td><span class="math inline">\(H_0\)</span>不成立</td>
+</tr>
+<tr class="even">
+<td>假设检验结果</td>
+<td>拒绝<span class="math inline">\(H_0\)</span></td>
+<td>弃真错误</td>
+<td>推断错误</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>接受<span class="math inline">\(H_0\)</span></td>
+<td>推断错误</td>
+<td>纳伪错误</td>
+</tr>
+</tbody>
+</table>
+<p>设 <span class="math display">\[
+\alpha = p\{\text{拒绝}H_0\vert
+H_0\text{成立}\}=P\{(X_1,X_2,\cdots,X_n)\in \mathscr{F}_0 \vert
+H_0\text{成立}\}\\
+\beta = p\{\text{接受}H_0\vert
+H_0\text{不成立}\}=P\{(X_1,X_2,\cdots,X_n)\notin \mathscr{F}_0 \vert
+H_0\text{不成立}\}
+\]</span>
+在样本容量固定的条件下，要使犯两类错误的概率都达到很小是不可能的。在一般场合下，减少犯一类错误的概率，就会增加另一类错误的概率。</p>
 
                 
               </div>
@@ -387,8 +409,8 @@ H_0\text{成立}\}\le
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>特征筛选方法(独立性检验)</div>
-      <div>http://example.com/posts/48705.html</div>
+      <div>特征筛选方法(假设检验)</div>
+      <div>http://example.com/posts/31595.html</div>
     </div>
     <div class="license-meta">
       
@@ -430,18 +452,12 @@ H_0\text{成立}\}\le
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/posts/849.html" title="特征筛选方法(方差分析)">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">特征筛选方法(方差分析)</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/posts/37255.html" title="关键特征衍生方法">
-                        <span class="hidden-mobile">关键特征衍生方法</span>
+                      <a href="/posts/849.html" title="特征筛选方法(方差分析)">
+                        <span class="hidden-mobile">特征筛选方法(方差分析)</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

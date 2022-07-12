@@ -16,27 +16,22 @@
   <meta name="author" content="JangShuan Pang">
   <meta name="keywords" content="">
   
-    <meta name="description" content="机器学习 特征工程            独立性检验 独立性检验原理 在某些实际问题中常常会遇到两个指标，需要分析两个指标\(X,Y\)之间的相互依赖关系。假设\(X\)有\(r\)个不同可能取值\(A_i,i&#x3D;1,2,\dots,r\)，\(Y\)有\(s\)个不同可能取值\(B_j,j&#x3D;1,2,\dots,s\)。则属于\(A_i\)和\(B_j\)的频数">
+    <meta name="description" content="机器学习 特征工程            方差分析 方差分析用于两个及两个以上总体均值差别的显著性检验。例如，生产某种产品，为了使生产过程稳定，达到优质，高产，需要对影响产品质量的因素进行分析，找出有显著影响的因素，方差分析就是鉴别各因素效应的一种有效的统计方法。 单因素方差分析 若在一项试验中只考虑一个因素A的变化，其他因素保持不变，称这种试验为单因素试验">
 <meta property="og:type" content="article">
-<meta property="og:title" content="特征筛选方法(独立性检验)">
-<meta property="og:url" content="http://example.com/posts/48705.html">
+<meta property="og:title" content="特征筛选方法(方差分析)">
+<meta property="og:url" content="http://example.com/posts/849.html">
 <meta property="og:site_name" content="网站名称">
-<meta property="og:description" content="机器学习 特征工程            独立性检验 独立性检验原理 在某些实际问题中常常会遇到两个指标，需要分析两个指标\(X,Y\)之间的相互依赖关系。假设\(X\)有\(r\)个不同可能取值\(A_i,i&#x3D;1,2,\dots,r\)，\(Y\)有\(s\)个不同可能取值\(B_j,j&#x3D;1,2,\dots,s\)。则属于\(A_i\)和\(B_j\)的频数">
+<meta property="og:description" content="机器学习 特征工程            方差分析 方差分析用于两个及两个以上总体均值差别的显著性检验。例如，生产某种产品，为了使生产过程稳定，达到优质，高产，需要对影响产品质量的因素进行分析，找出有显著影响的因素，方差分析就是鉴别各因素效应的一种有效的统计方法。 单因素方差分析 若在一项试验中只考虑一个因素A的变化，其他因素保持不变，称这种试验为单因素试验">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/QQ%E6%88%AA%E5%9B%BE20220711194807.png">
-<meta property="og:image" content="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/QQ%E6%88%AA%E5%9B%BE20220711194834.png">
-<meta property="og:image" content="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/QQ%E6%88%AA%E5%9B%BE20220711202002.png">
-<meta property="og:image" content="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/QQ%E6%88%AA%E5%9B%BE20220711202106.png">
-<meta property="article:published_time" content="2022-07-12T07:12:19.237Z">
-<meta property="article:modified_time" content="2022-07-12T11:16:21.263Z">
+<meta property="article:published_time" content="2022-07-12T11:14:54.666Z">
+<meta property="article:modified_time" content="2022-07-12T11:17:58.167Z">
 <meta property="article:author" content="JangShuan Pang">
 <meta property="article:tag" content="machine learning">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/QQ%E6%88%AA%E5%9B%BE20220711194807.png">
   
   
   
-  <title>特征筛选方法(独立性检验) - 网站名称</title>
+  <title>特征筛选方法(方差分析) - 网站名称</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -213,7 +208,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="特征筛选方法(独立性检验)"></span>
+            <span id="subtitle" data-typed-text="特征筛选方法(方差分析)"></span>
           
         </div>
 
@@ -224,8 +219,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-07-12 15:12" pubdate>
-          2022年7月12日 下午
+        <time datetime="2022-07-12 19:14" pubdate>
+          2022年7月12日 晚上
         </time>
       </span>
     
@@ -236,7 +231,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.1k 字
+          3.4k 字
         
       </span>
     
@@ -247,7 +242,7 @@
         
         
         
-          18 分钟
+          29 分钟
         
       </span>
     
@@ -285,7 +280,7 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">特征筛选方法(独立性检验)</h1>
+            <h1 style="display: none">特征筛选方法(方差分析)</h1>
             
             
               <div class="markdown-body">
@@ -294,47 +289,111 @@
 <div class="note note-success">
             <p>机器学习 特征工程</p>
           </div>
-<h2 id="独立性检验">独立性检验</h2>
-<h3 id="独立性检验原理">独立性检验原理</h3>
-<p>在某些实际问题中常常会遇到两个指标，需要分析两个指标<span class="math inline">\(X,Y\)</span>之间的相互依赖关系。假设<span class="math inline">\(X\)</span>有<span class="math inline">\(r\)</span>个不同可能取值<span class="math inline">\(A_i,i=1,2,\dots,r\)</span>，<span class="math inline">\(Y\)</span>有<span class="math inline">\(s\)</span>个不同可能取值<span class="math inline">\(B_j,j=1,2,\dots,s\)</span>。则属于<span class="math inline">\(A_i\)</span>和<span class="math inline">\(B_j\)</span>的频数记为<span class="math inline">\(n_{ij},(i=1,2,\dots,r,j=1,2,\dots,s)\)</span>，形成如下列联表。</p>
-<p><img src="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/QQ%E6%88%AA%E5%9B%BE20220711194807.png" srcset="/img/loading.gif" lazyload></p>
-<p>类似地，对应于上表的多项概率分布如下表所示，其中<span class="math inline">\(p_{ij}\)</span>表示同时属于<span class="math inline">\(A_i\)</span>和<span class="math inline">\(B_j\)</span>类的概率，并且边缘分布律为<span class="math inline">\(p_{.j}\)</span>和<span class="math inline">\(p_{i.}\)</span></p>
-<p><img src="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/QQ%E6%88%AA%E5%9B%BE20220711194834.png" srcset="/img/loading.gif" lazyload></p>
-<h4 id="问题描述">问题描述</h4>
-<p>假设<span class="math inline">\((x_i,y_i)(i=1,2,\dots,n)\)</span>是总体<span class="math inline">\((X,Y)\)</span>的样本测试值，将<span class="math inline">\(X\)</span>的可能取值分为<span class="math inline">\(r\)</span>个互不相交的类<span class="math inline">\(A_1,A_2,\dots,A_r\)</span>，<span class="math inline">\(Y\)</span>的可能取值分为<span class="math inline">\(s\)</span>个互不相交的类<span class="math inline">\(B_1,B_2,\dots,B_s\)</span>，欲检验： <span class="math display">\[
-H_0:X\text{与}Y\text{独立}，H_1:X\text{与}Y\text{不独立} \iff
-H_0:p_{ij}=p_{i\cdot}p_{\cdot, j}\quad\forall i,j,H_1:p_{ij}\neq
-p_{i\cdot}p_{\cdot j }\quad \text{对某个}(i,j)
-\]</span></p>
-<h4 id="chi2检验统计量及拒绝域"><span class="math inline">\(\chi^{2}\)</span>检验统计量及拒绝域</h4>
-<p>针对假设（1），若<span class="math inline">\(H_0\)</span>成立，则对所有的<span class="math inline">\((i,j)\)</span>，实际频数<span class="math inline">\(n_{ij}\)</span>与理论频数<span class="math inline">\(np_{ij}\)</span>的差异应该很小。故构造检验统计量
+<h2 id="方差分析">方差分析</h2>
+<p>方差分析用于两个及两个以上总体均值差别的显著性检验。例如，生产某种产品，为了使生产过程稳定，达到优质，高产，需要对影响产品质量的因素进行分析，找出有显著影响的因素，方差分析就是鉴别各因素效应的一种有效的统计方法。</p>
+<h3 id="单因素方差分析">单因素方差分析</h3>
+<p>若在一项试验中只考虑一个因素A的变化，其他因素保持不变，称这种试验为单因素试验。具体做法为：A取几个水平，在每个水平上作若干试验，试验过程中除A外其他影响指标的因素都保持不变（只有随机因素存在），我们的任务是从试验结果推断，因素A对指标有无显著影响，即当A取不同水平时指标有无显著差别。A取某个水平下的指标可视为随机变量，判断A取不同水平时指标有无显著差异，相当于检验若干总体的均值是否相等。</p>
+<p>例：用4种工艺A1,A2,A3,A4生产灯泡，从各种工艺制成的灯泡中各抽出了若干个测量其寿命，结果如下表所示，试推断这几种工艺制成灯泡寿命是否有显著差异。</p>
+<table>
+<thead>
+<tr class="header">
+<th>A1</th>
+<th>A2</th>
+<th>A3</th>
+<th>A4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1620</td>
+<td>1580</td>
+<td>1460</td>
+<td>1500</td>
+</tr>
+<tr class="even">
+<td>1670</td>
+<td>1600</td>
+<td>1540</td>
+<td>1550</td>
+</tr>
+<tr class="odd">
+<td>1700</td>
+<td>1640</td>
+<td>1620</td>
+<td>1610</td>
+</tr>
+<tr class="even">
+<td>1750</td>
+<td>1720</td>
+<td>1680</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>1800</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>该例中不同生产的工艺称为因素，属于单因素的试验，该因素一共有4种取值水平，分别是A1,A2,A3,A4。设每一种工艺生产的灯泡寿命为<span class="math inline">\(X_i,i=1,2,3,4\)</span>。假设每一随机变量<span class="math inline">\(X_i\)</span>都服从正态分布。判断这几种工艺制成灯泡寿命是否有显著差异，即判断随机变量<span class="math inline">\(X_i,i=1,2,3,4\)</span>的均值是否相等。我们对<span class="math inline">\(4\)</span>个总体作出如下假设： <span class="math display">\[
+H_0:\mu_1=\mu_2=\mu_3=\mu_4
+\]</span> 记各组内的样本均值为： <span class="math display">\[
+\hat{X}_i = \frac{1}{n_i}\sum\limits_{j=1}^{n_i}X_{ij},\qquad i=1,2,3,4
+\]</span> 样本的总均值为 <span class="math display">\[
+\hat{X} = \frac{1}{n}\sum\limits_{i=1}^{4}\sum\limits_{j=1}^{n_i}X_{ij}
+= \frac{1}{n}\sum\limits_{i=1}^4n_i\hat{X}_{i},\qquad n=\sum_{i=1}^4n_i
+\]</span> 计算各样本值与总的平均值之间的离差平方和： <span class="math display">\[
+\begin{split}S_{T} =&amp;
+\sum_{i=1}^4\sum_{j=1}^{n_i}(X_{ij}-\hat{X})^2\\
+                   =&amp;
+\sum_{i=1}^4\sum_{j=1}^{n_i}(X_{ij}-\hat{X}_i+\hat{X}_i-\hat{X})^2\\
+                   =&amp;
+\sum_{i=1}^4\sum_{j=1}^{n_i}(X_{ij}-\hat{X}_i)^2+2\sum_{i=1}^4\sum_{j=1}^{n_i}(X_{ij}-\hat{X}_i)(\hat{X_i}-\hat{X})+\sum_{i=1}^{4}\sum_{j=1}^{n_i}(\hat{X}_i-\hat{X})^2\\
+                   =&amp;
+\sum_{i=1}^4\sum_{j=1}^{n_i}(X_{ij}-\hat{X}_i)^2+\sum_{i=1}^4n_i(\hat{X}_i-\hat{X})^2\\       =&amp;
+S_E+S_A  
+\end{split}
+\]</span> 该式称为离差平方和分解式，其中<span class="math inline">\(S_E\)</span>反映各组内部<span class="math inline">\(X_{ij}\)</span>之间的差异（即同一组内随机抽样产生的误差），称为组内离差平方和；<span class="math inline">\(S_A\)</span>反映各组之间由于因素水平不同而引起的差异（不同水平下的差异即条件误差），称为组间离差平方和。方差分析就是通过对组内，组间离差平方和的比较来检验假设的。</p>
+<ul>
+<li>SST（sum of squares for total）</li>
+<li>SSE（sum of squares for error）</li>
+<li>SSA（sum of squares for factor A）</li>
+</ul>
+<p>在实际中，为了简化计算步骤，常按下卖弄的一组公式去计算<span class="math inline">\(SST,SSE,SSA\)</span> <span class="math display">\[
+SST =
+\sum_{i=1}^r\sum_{j=1}^{n_i}X_{ij}^2-\frac{1}{n}(\sum_{i=1}^{r}\sum_{j=1}^{n_i}X_{ij})^2\\
+SSE =
+\sum_{i=1}^r\sum_{j=1}^{n_i}X_{ij}^2-\sum_{i=1}^r\frac{1}{n_i}(\sum_{j=1}^{n_i}X_{ij})^2\\
+SSA = SST-SSE
+\]</span> 定理： <span class="math display">\[
+\begin{split}
+&amp;(1) E(S_A) = (r-1)\sigma^2+\sum_{i=1}^{r}n_i(\mu_i-\mu)^2\notag\\
+&amp;(2) E(S_E)=(n-r)\sigma^2\notag\\
+&amp;(3) \frac{S_E}{\sigma^2}\sim\chi^2(n-r)
+\end{split},\qquad where\quad\mu=\frac{1}{n}\sum_{i=1}^{r}n_i\mu_i
+\]</span> 定理：当<span class="math inline">\(H_0:\mu_1=\mu_2=\cdots=\mu_r\)</span>成立时，有
 <span class="math display">\[
-\chi^{2} =
-\sum\limits_{j=1}^{s}\sum\limits_{i=1}^{r}\frac{(n_{ij}-np_{ij})^{2}}{np_{ij}}
-\]</span> 由于一般情况下<span class="math inline">\(p_{ij}\)</span>未知，可用<span class="math inline">\(p_{ij}\)</span>的最大似然估计<span class="math inline">\(\hat{p}_{ij}\)</span>代替，在<span class="math inline">\(H_0\)</span>成立的条件下，可退证 <span class="math display">\[
-\hat{p}_{ij} = \hat{p}_{i\cdot}\cdot\hat{p}_{\cdot
-j}=\frac{n_{i\cdot}\cdot n_{\cdot j}}{n^2},\forall i,j
-\]</span> 式（2）可化简为 <span class="math display">\[
-\chi^{2} =
-\sum\limits_{j=1}^{s}\sum\limits_{i=1}^{r}\frac{(n_{ij}-np_{ij})^{2}}{np_{ij}}=n\sum\limits_{j=1}^{s}\sum\limits_{i=1}^{r}\frac{n_{ij}^2}{n_{i\cdot}n_{\cdot
-j}}-n
-\]</span> 可以证明，在<span class="math inline">\(H_0\)</span>成立下，<span class="math inline">\(\chi^2 \sim
-\chi^2((r-1)(s-1))\)</span>，且拒绝域为 <span class="math display">\[
-\mathscr{F}_0 = \{\chi^2&gt;\chi^2_{1-\alpha}((r-1)(s-1))\}
-\]</span></p>
-<h3 id="独立性检验python实现">独立性检验Python实现</h3>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">&gt;&gt;&gt;X = X_train_OE[<span class="hljs-string">&quot;Contract&quot;</span>] <span class="hljs-comment">#某数据集的一列</span><br>&gt;&gt;&gt;y = y_train <span class="hljs-comment">#某数据的标签列</span><br>&gt;&gt;&gt;df_crosstab = pd.crosstab(X,y) <span class="hljs-comment">#创建联合表</span><br></code></pre></td></tr></table></figure>
-<p><img src="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/QQ%E6%88%AA%E5%9B%BE20220711202002.png" srcset="/img/loading.gif" lazyload></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> scipy <span class="hljs-keyword">import</span> stats<br>stats.chi2_contingency(df_crosstab) <span class="hljs-comment">#卡方检验</span><br></code></pre></td></tr></table></figure>
-<p><img src="https://pjs-1312672154.cos.ap-shanghai.myqcloud.com/QQ%E6%88%AA%E5%9B%BE20220711202106.png" srcset="/img/loading.gif" lazyload></p>
-<p>chi2_contingency函数返回了四个结果，分别是卡方值、显著性水平、自由度以及期望频数表。其中<span class="math inline">\(\alpha\)</span>显著性水平为<span class="math inline">\(P\{(X_1,X_2,\dots,X_n)\in \mathscr{F}_0\vert
-H_0\text{成立}\}\le
-\alpha\)</span>.这就说明第一个值越大，第二个值越小，则两个变量越不独立，就越相关。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> scipy<br>scipy.special.chdtrc(<span class="hljs-number">2</span>, <span class="hljs-number">872.3694073422871</span>)<span class="hljs-comment">#第一个参数为自由度，第二个参数为卡方值。</span><br></code></pre></td></tr></table></figure>
-<p>可以根据以上计算显著性水平。</p>
-<h3 id="独立性检验机器学习应用特征筛选">独立性检验机器学习应用（特征筛选）</h3>
-<p>在机器学习领域，卡方检验主要用于海量特征衍生后的特征筛选。主要是离散变量与离散标签之间的独立性（相关性）。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">SelectName_P</span>(<span class="hljs-params">P=<span class="hljs-number">0.01</span>,KB</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    根据显著性水平筛选特征 </span><br><span class="hljs-string">    :param P :显著性水平</span><br><span class="hljs-string">    :param KB:已经训练好的评分函数为Chi2的SelectKBest评估器</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    colNames = []<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(KB.feature_names_in_,KB.pvalues_):<br>        <span class="hljs-keyword">if</span> i[<span class="hljs-number">1</span>] &lt;= P:<br>            colNames.append(i[<span class="hljs-number">0</span>])<br>    <span class="hljs-keyword">return</span> colNames<br></code></pre></td></tr></table></figure>
+\begin{split}
+&amp;(1) \frac{S_A}{\sigma^2}\sim\chi^2(r-1)\\
+&amp;(2)
+S_E\text{与}S_A\text{相互独立且}F=\frac{S_A/(r-1)}{S_E/(n-r)}\sim
+F(r-1,n-r)
+\end{split}
+\]</span> 于是我们根据上述定理构造检验统计量 <span class="math display">\[
+F=\frac{S_A/(r-1)}{S_E/(n-r)}
+\]</span> 当<span class="math inline">\(H_0\)</span>成立时，<span class="math inline">\(F\sim
+F(r-1,n-r)\)</span>。于是，在给定显著性水平<span class="math inline">\(\alpha\)</span>下,检验假设 <span class="math display">\[
+H_0:\mu_1=\mu_2=\cdots=\mu_r
+\]</span> 若由试验数据算出结果<span class="math inline">\(F&gt;F_{\alpha}(r-1,n-r)\)</span>，则拒绝<span class="math inline">\(H_0\)</span>,即认为因素A对试验结果有显著影响；若<span class="math inline">\(F&lt;F_{\alpha}(r-1,n-r)\)</span>，则接受<span class="math inline">\(H_0\)</span>,即认为因素A对试验结果没有显著影响。</p>
+<p>在方差分析中，还作如下规定：</p>
+<p>（1）如果取<span class="math inline">\(\alpha=0.01\)</span>时拒绝<span class="math inline">\(H_0\)</span>，则称因素A的影响高度显著</p>
+<p>（2）如果取<span class="math inline">\(\alpha=0.05\)</span>时拒绝<span class="math inline">\(H_0\)</span>，但取<span class="math inline">\(\alpha=0.01\)</span>时不拒绝<span class="math inline">\(H_0\)</span>,则称因素A的影响显著。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">x = np.array([<span class="hljs-number">1620</span>,<span class="hljs-number">1670</span>,<span class="hljs-number">1700</span>,<span class="hljs-number">1750</span>,<span class="hljs-number">1800</span>,<span class="hljs-number">1580</span>,<span class="hljs-number">1600</span>,<span class="hljs-number">1640</span>,<span class="hljs-number">1720</span>,<span class="hljs-number">1460</span>,<span class="hljs-number">1540</span>,<span class="hljs-number">1620</span>,<span class="hljs-number">1680</span>,<span class="hljs-number">1500</span>,<span class="hljs-number">1610</span>])<br>y = np.array([<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">2</span>,<span class="hljs-number">2</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">3</span>,<span class="hljs-number">3</span>])<br>df = pd.DataFrame(x,columns=[<span class="hljs-string">&quot;x&quot;</span>])<br>df[<span class="hljs-string">&quot;y&quot;</span>] = pd.DataFrame(y,columns=[<span class="hljs-string">&quot;y&quot;</span>])<br><span class="hljs-keyword">from</span> scipy.stats <span class="hljs-keyword">import</span> f_oneway<br>f_oneway(df[<span class="hljs-string">&quot;x&quot;</span>],df[<span class="hljs-string">&quot;y&quot;</span>])<br>F_onewayResult(statistic=<span class="hljs-number">4724.493209349733</span>, pvalue=<span class="hljs-number">9.098985853698895e-33</span>)<br></code></pre></td></tr></table></figure>
+<h3 id="单因素方差分析用于特征筛选">单因素方差分析用于特征筛选</h3>
+<p>当标签为离散变量时，特征为连续变量时可以用方差分析来进行特征筛选</p>
+<p>在标签的不同水平下的特征有无显著性差异。作假设<span class="math inline">\(H_0:\)</span>在标签的不同取值水平下特征无显著性差异。通过方差分析作统计推断。若pvalues_&lt;0.01(0.05)，则拒绝原假设，认为在标签的不同水平下特征有显著差异。那么此特征就是可用特征。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">SelectName</span>(<span class="hljs-params">KB,P=<span class="hljs-number">0.01</span></span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    方差分析作特征筛选时挑选列名称函数</span><br><span class="hljs-string">    params KB:训练好的挑选器</span><br><span class="hljs-string">    params P:给定的显著性阈值</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    colNames = []<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(KB.feature_names_in_,KB.pvalues_):<br>        <span class="hljs-keyword">if</span> i[<span class="hljs-number">1</span>]&lt;P:<br>            colNames.append(i[<span class="hljs-number">0</span>])<br>    <span class="hljs-keyword">return</span> colNames<br></code></pre></td></tr></table></figure>
 
                 
               </div>
@@ -387,8 +446,8 @@ H_0\text{成立}\}\le
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>特征筛选方法(独立性检验)</div>
-      <div>http://example.com/posts/48705.html</div>
+      <div>特征筛选方法(方差分析)</div>
+      <div>http://example.com/posts/849.html</div>
     </div>
     <div class="license-meta">
       
@@ -430,9 +489,9 @@ H_0\text{成立}\}\le
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/posts/849.html" title="特征筛选方法(方差分析)">
+                      <a href="/posts/31595.html" title="特征筛选方法(假设检验)">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">特征筛选方法(方差分析)</span>
+                        <span class="hidden-mobile">特征筛选方法(假设检验)</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -440,8 +499,8 @@ H_0\text{成立}\}\le
                   <article class="post-next col-6">
                     
                     
-                      <a href="/posts/37255.html" title="关键特征衍生方法">
-                        <span class="hidden-mobile">关键特征衍生方法</span>
+                      <a href="/posts/48705.html" title="特征筛选方法(独立性检验)">
+                        <span class="hidden-mobile">特征筛选方法(独立性检验)</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
